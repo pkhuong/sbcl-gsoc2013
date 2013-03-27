@@ -131,3 +131,5 @@ objects, colour them so they don't alias.
 * utf-8b
 
 * Free-er form displaced arrays
+
+* Flexible (pseudo) random number generation
