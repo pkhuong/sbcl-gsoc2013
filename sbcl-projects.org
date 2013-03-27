@@ -1,0 +1,34 @@
+#+OPTIONS: author:nil email:nil creator:nil
+#+TITLE: Project Ideas
+
+* Unicode Integration
+SBCL has a simple-minded implementation of Unicode support: each
+Unicode codepoint is a single Lisp character, and strings are
+sequences of codepoints. This implementation meets the principle of
+least surprise, but has left some rough edges; the project here
+involves exploring some of those rough edges and smoothing them
+down. The project involves: implementation and testing (from test
+vectors and differentially) of a number of Unicode algorithms, and
+(the interesting bit) integrating those algorithms in a tasteful way
+in the language runtime: for example, by using the normalization
+algorithm in symbol equality, allowing easy use of collation keys for
+sorting, or syllable breaking in the pretty-printer or formatter.
+
+** Deliverables
+1. CL implementations of algorithms specified in the Unicode standards;
+2. Integration of these algorithms into the the SBCL language runtime;
+3. Integration of test cases into the SBCL build sequence;
+4. Exploratory work in /using/ these algorithms in suitable places in
+   the Lisp language runtime.
+
+** Prerequisites
+There are no hard prerequisites for this project; an interest in
+internationalization issues would be helpful, as would prior
+experience with working with Unicode.
+
+** Student learning
+A student successfully executing this project would learn about: data
+structures for efficient information storage; test methodologies; and
+working within the strictures of standardized algorithms and
+languages.
+
