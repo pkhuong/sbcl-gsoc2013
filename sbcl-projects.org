@@ -135,3 +135,5 @@ objects, colour them so they don't alias.
 * Flexible (pseudo) random number generation
 
 * Accurate type derivation
+
+* Faster FASL loading
