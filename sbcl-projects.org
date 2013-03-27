@@ -133,3 +133,5 @@ objects, colour them so they don't alias.
 * Free-er form displaced arrays
 
 * Flexible (pseudo) random number generation
+
+* Accurate type derivation
