@@ -70,3 +70,64 @@ develop microbenchmarks accordingly, in order to make non-obvious
 technical decisions.  They would also exercise test methodologies, and
 potentially implement algorithms described by specialised scientific
 literature.
+
+* A binary serialisation library
+Many applications depend on the efficient (both in terms of time and
+of space) serialisation of data.  A few Common Lisp libraries address
+this concern portably, and "fasl" files offer very powerful
+serialisation to files.  Exploiting implementation-specific knowledge
+and placing restriction on serialised data enables an efficient wire
+protocol.  
+
+* Improving the thread-safety of the object system
+
+* Reducing the size of delivered applications
+
+* Quicker compilation
+
+* More efficient hash functions and hash tables
+
+* An expression optimisation pass
+
+* Exploiting switch/case in standard control structures
+
+* Peephole optimisation
+
+* Precompilation support for CLOS
+
+* Exploiting vector intrinsics in block sequence operations
+
+* Modernising a graph-coloring register allocator
+
+* Selecting concrete representations cleverly
+
+* Allocation pools
+
+* Replacing the garbage collector with MPS
+
+* A hybrid copying/mark-and-sweep garbage collector
+
+* Software write barriers
+
+* Efficient integer truncate/floor/ceiling by constants
+
+* Scheduling pass
+
+* Modified structure layout
+
+* Precise stack scanning
+
+* Coarser type derivation system
+
+* CLOS sealing
+
+* Unboxed calling convention
+
+* Improving SBCL's memory allocator
+
+Avoid interleaving boxed/unboxed pages, stop misaligning large
+objects, colour them so they don't alias.
+
+* utf-8b
+
+* Free-er form displaced arrays
