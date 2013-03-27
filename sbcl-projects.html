@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-27 23:20:55 CET"/>
+<meta name="generated" content="2013-03-27 23:55:33 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -84,6 +84,13 @@ lang="en" xml:lang="en">
 <li><a href="#sec-1.3">1.3 Student learning </a></li>
 </ul>
 </li>
+<li><a href="#sec-2">2 Exploiting GMP for bignum and rational arithmetic </a>
+<ul>
+<li><a href="#sec-2.1">2.1 Deliverables </a></li>
+<li><a href="#sec-2.2">2.2 Prerequisites </a></li>
+<li><a href="#sec-2.3">2.3 Student learning </a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -154,9 +161,89 @@ languages.
 </p>
 </div>
 </div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Exploiting GMP for bignum and rational arithmetic </h2>
+<div class="outline-text-2" id="text-2">
+
+<p>SBCL has a reasonably simple but decent implementation of arbitrary
+precision integers and rationals; its design is also informed by the
+Common Lisp specification, in particular support for bitwise operation
+in two's complement.  GNU MP (GMP) offers sophisticated routines that
+would be extremely useful when working with medium and large bignums
+or rationals, but calls to GMP entails conversion to/from
+sign-magnitude representation, and foreign function interface
+overhead.  The project requires the integration of GMP in SBCL,
+ideally as an optional module ("contrib"), the development of
+efficient conversion algorithms between GMP's and SBCL's concrete
+representations, and the determination of cross-over points between
+SBCL's and GMP's routines.  This work would probably be appreciated by
+symbolic computing applications (e.g. maxima).
+</p>
+
+</div>
+
+<div id="outline-container-2.1" class="outline-3">
+<h3 id="sec-2.1"><span class="section-number-3">2.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-2.1">
+
+<ol>
+<li>
+(partial) Foreign function interface definitions for GMP;
+</li>
+<li>
+Development of routines to convert between two's complement and
+sign-magnitude representation;
+</li>
+<li>
+Integration in SBCL's existing bignum and rational arithmetic code;
+</li>
+<li>
+Determination of criteria for the use of GMP's routines to improve
+performance on large integer or rationals, as used in applications,
+without overly penalising the common case of tiny values;
+</li>
+<li>
+Development of unit tests for the new routines;
+</li>
+<li>
+Improvement of SBCL's algorithms for small or medium bignums and
+rationals (optional).
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-2.2" class="outline-3">
+<h3 id="sec-2.2"><span class="section-number-3">2.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-2.2">
+
+<p>Familiarity with Common Lisp and C. An interest in number theory would
+be useful, and may provide additional motivation.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2.3" class="outline-3">
+<h3 id="sec-2.3"><span class="section-number-3">2.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-2.3">
+
+<p>The student would learn to characterise the use of a small part of a
+system (bignum and rational arithmetic) by various applications, and
+develop microbenchmarks accordingly, in order to make non-obvious
+technical decisions.  They would also exercise test methodologies, and
+potentially implement algorithms described by specialised scientific
+literature.
+</p></div>
+</div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-27 23:20:55 CET</p>
+<p class="date"> Date: 2013-03-27 23:55:33 CET</p>
 </div>
 </div>
 </body>

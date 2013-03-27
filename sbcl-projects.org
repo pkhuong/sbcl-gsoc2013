@@ -32,3 +32,41 @@ structures for efficient information storage; test methodologies; and
 working within the strictures of standardized algorithms and
 languages.
 
+* Exploiting GMP for bignum and rational arithmetic
+SBCL has a reasonably simple but decent implementation of arbitrary
+precision integers and rationals; its design is also informed by the
+Common Lisp specification, in particular support for bitwise operation
+in two's complement.  GNU MP (GMP) offers sophisticated routines that
+would be extremely useful when working with medium and large bignums
+or rationals, but calls to GMP entails conversion to/from
+sign-magnitude representation, and foreign function interface
+overhead.  The project requires the integration of GMP in SBCL,
+ideally as an optional module ("contrib"), the development of
+efficient conversion algorithms between GMP's and SBCL's concrete
+representations, and the determination of cross-over points between
+SBCL's and GMP's routines.  This work would probably be appreciated by
+symbolic computing applications (e.g. maxima).
+
+** Deliverables
+1. (partial) Foreign function interface definitions for GMP;
+2. Development of routines to convert between two's complement and
+   sign-magnitude representation;
+3. Integration in SBCL's existing bignum and rational arithmetic code;
+4. Determination of criteria for the use of GMP's routines to improve
+   performance on large integer or rationals, as used in applications,
+   without overly penalising the common case of tiny values;
+5. Development of unit tests for the new routines;
+6. Improvement of SBCL's algorithms for small or medium bignums and
+   rationals (optional).
+
+** Prerequisites
+Familiarity with Common Lisp and C. An interest in number theory would
+be useful, and may provide additional motivation.
+
+** Student learning
+The student would learn to characterise the use of a small part of a
+system (bignum and rational arithmetic) by various applications, and
+develop microbenchmarks accordingly, in order to make non-obvious
+technical decisions.  They would also exercise test methodologies, and
+potentially implement algorithms described by specialised scientific
+literature.
