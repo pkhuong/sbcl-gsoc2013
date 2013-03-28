@@ -79,6 +79,45 @@ serialisation to files.  Exploiting implementation-specific knowledge
 and placing restriction on serialised data enables an efficient wire
 protocol.  
 
+* Flexible (pseudo) random number generation
+SBCL's support for random number generation is limited to an
+implementation of the Mersenne Twister (MT19937) PRNG.  This is a good
+general-purpose PRNG, but some applications require different
+characteristics of the random numbers, whether that is specific
+guarantees about correlations, suitability for cryptographic
+algorithms, or just plain raw speed.  This project involves
+implementing several PRNG algorithms, and integrating them into SBCL
+in such a way as to allow library authors and end-users to
+programmatically negotiate the choice of PRNG algorithm among multiple
+implemented choices.
+
+** Deliverables
+1. Implementations of several classes of random number generators,
+   including one high-speed PRNG and one believed suitable for
+   cryptographic applications;
+2. Use of statistical tests to examine the properties of the
+   implemented PRNGs;
+3. Pluggable integration into SBCL's existing random number generation
+   code (using random-state objects);
+4. (optional) support for hardware random number generators;
+5. (optional) development of a protocol to allow random number
+   generators to be selected dynamically given algorithmic
+   requirements.
+
+** Prerequisites
+No strict prerequisites, although some understanding of the possible
+space of pseudorandom number generation, including tradeoffs regarding
+speed, predictability (forwards and backwards) and dimensional
+distribution.  Familiarity with CL and its approach to random number
+generation can be acquired while doing the project.
+
+** Student learning
+The student will learn the breadth of possible implementations of
+random number generators, and their limitations, all while working in
+the context of an established language runtime.  A successful project
+is also likely to cover statistical tests of randomness and efficient
+object-oriented design.
+
 * Improving the thread-safety of the object system
 
 * Reducing the size of delivered applications
@@ -131,8 +170,6 @@ objects, colour them so they don't alias.
 * utf-8b
 
 * Free-er form displaced arrays
-
-* Flexible (pseudo) random number generation
 
 * Accurate type derivation
 
