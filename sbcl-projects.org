@@ -172,5 +172,21 @@ objects, colour them so they don't alias.
 * Free-er form displaced arrays
 
 * Accurate type derivation
-
+Look for an LFP instead of starting at T.
 * Faster FASL loading
+* Accurate and correct numeric type derivation
+* Contracts
+* Parametric recursive types
+* MPFR for long floats
+* clang(++)-based FFI
+* Threading/locking debugging facilities
+* Heap predicates and GC debugging
+* Core relocation
+* Better failure modes for heap overflow
+Flexible heap, and GC before allocating.
+* Shared memory multi-process heap
+* Hygienic macros
+* Structured codewalking
+* Inline caches for PCL
+* Autodxification of higher-order functions
+* GCed special variables
