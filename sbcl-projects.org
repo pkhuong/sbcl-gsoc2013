@@ -619,8 +619,8 @@ improve such a system.
 * Efficient integer truncate/floor/ceiling by constants
 Integer division is notorious for being slow.  However, it is also
 known that the divisor is constant in the vast majority of cases, and
-serious compilers thus exploit that fact to simplify divisions into
-sequences of simpler multiplication, shift and addition.  SBCL
+serious compilers exploit that fact to simplify divisions into
+sequences of simpler multiplications, shifts, and additions.  SBCL
 implements such a simplification only for truncated division of
 unsigned machine words.  Floor and ceiling are less commonly supported
 natively in programming languages, and there is a dearth of literature
@@ -651,9 +651,9 @@ to understand how to correctly simplify operations in computer
 programs.  They would likely develop an understanding of the
 performance characteristics of contemporary computers to decide how to
 let number theory guide the simplification of divisions by integers.
-They would also show the correctness of simple but novel
-transformations, and exploit their understanding of the problem domain
-to develop tests that are likely to detect wrong transformations.
+They would also show the correctness of simple but novel variations,
+and exploit their understanding of the problem domain to develop tests
+that are likely to detect incorrect transformations.
 
 * Scheduling pass
 
