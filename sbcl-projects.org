@@ -429,13 +429,13 @@ enable code to avoid spills when register pressure is high; this is a
 particularly pressing issue on x86.  Moreover, while SBCL's register
 allocator allocates registers (or stack slots) to variables,
 contemporary allocator obtain much better results by mapping registers
-to values, thus allowing the value associated with a single variable
+to values, thus allowing the values associated with a single variable
 to be stored in different locations at distinct points in the code.
 This can be achieved to a lesser extent by more closely tracking
 values within a single basic block and by splitting live ranges in
-multiple sections, and inserting fixup code.  Through any of these
-means, the project would improve the performance of code that
-exhibits high register pressure.
+multiple sections, if compensation code is inserted as needed.
+Through any of these means, the project would improve the performance
+of code that exhibits high register pressure.
 
 ** Deliverables
 1. Accumulate a few functions that exhibit register allocation issues;
@@ -467,17 +467,17 @@ values, while others, like floating-point arithmetic, are more
 efficient on natively-represented values.  SBCL currently assigns a
 single concrete representation for each variable.  This selection
 algorithm can be revisited and improved, but the constraints under
-which it operates could be relaxed as well: nothing prevents
-a variable's values to be represented in different manners at distinct
-program points, as long as conversion code is inserted at key places.
-In particular, this additional leeway imposes a very low overhead if
-it is only exploited within each basic block.  This project requires a
-lot of creativity to understand an exotic combinatorial optimisation
-problem and determine how best to tackle it and adapt existing
-methods; if successful, it would result in the development of a novel
-algorithm for a problem essential to the performance of
-dynamically-typed languages, and its application in a pre-existing
-compiler.
+which it operates could be relaxed as well: nothing prevents a
+variable's values to be represented in different manners at distinct
+program points, as long as conversion code is inserted at key
+locations.  In particular, this additional leeway imposes a very low
+overhead if it is only exploited within each basic block.  This
+project demands creativity to understand an exotic combinatorial
+optimisation problem and determine how best to tackle it and adapt
+existing methods; if successful, it would likely result in the
+development of a novel algorithm for a problem essential to the
+performance of dynamically-typed languages, and its application in a
+pre-existing compiler, thus showing clear gains.
 
 ** Deliverables
 1. Describe the objective and constraints in the representation
@@ -495,7 +495,7 @@ Basic familiarity with assembly language. Some knowledge of discrete
 mathematics and of graph theory.
 
 ** Student learning
-The student will learn to describe complicated, industrial,
+The student will learn to describe a complicated, industrial,
 combinatorial optimisation problem formally, and attempt to reduce it
 to classic optimisation problems.  They will then have an opportunity
 to exploit this theoretical basis to improve on an existing heuristic,
