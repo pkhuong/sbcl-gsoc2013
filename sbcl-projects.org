@@ -617,7 +617,43 @@ of (a part of) a complex system, and act upon that information to
 improve such a system.
 
 * Efficient integer truncate/floor/ceiling by constants
+Integer division is notorious for being slow.  However, it is also
+known that the divisor is constant in the vast majority of cases, and
+serious compilers thus exploit that fact to simplify divisions into
+sequences of simpler multiplication, shift and addition.  SBCL
+implements such a simplification only for truncated division of
+unsigned machine words.  Floor and ceiling are less commonly supported
+natively in programming languages, and there is a dearth of literature
+describing how to simplify them.  However, it is possible to do so,
+for both signed and unsigned machine integers.  It is also possible to
+specialise the routines for tagged arithmetic.  A complete execution
+of this project would include the development of simplification
+routines for signed and unsigned truncate, floor and ceiling divisions
+by integer constants.  Some of the simplifications, particularly those
+concerning tagged integers, will be widely applicable and likely
+novel.
 
+** Deliverables
+1. Implement strength reduction of signed truncated division;
+2. Determine how to correctly simplify floor and ceiling division;
+3. Implement strength reduction of floor and ceiling division;
+4. Adapt the algorithms to take tagging into account;
+5. Extend the test suite for integer division by constants;
+6. (optional) Extend the work to constant division by rationals.
+
+** Prerequisites
+Basic number theory. Some work will likely be at the assembly level,
+but what little is necessary can be acquired on the fly.
+
+** Student learning
+The student would apply pure mathematics concepts from number theory
+to understand how to correctly simplify operations in computer
+programs.  They would likely develop an understanding of the
+performance characteristics of contemporary computers to decide how to
+let number theory guide the simplification of divisions by integers.
+They would also show the correctness of simple but novel
+transformations, and exploit their understanding of the problem domain
+to develop tests that are likely to detect wrong transformations.
 
 * Scheduling pass
 
