@@ -648,16 +648,47 @@ but what little is necessary can be acquired on the fly.
 ** Student learning
 The student would apply pure mathematics concepts from number theory
 to understand how to correctly simplify operations in computer
-programs.  They would likely develop an understanding of the
-performance characteristics of contemporary computers to decide how to
-let number theory guide the simplification of divisions by integers.
-They would also show the correctness of simple but novel variations,
-and exploit their understanding of the problem domain to develop tests
-that are likely to detect incorrect transformations.
+programs.  They would likely become acquainted with the performance
+characteristics of contemporary computers to decide how to let number
+theory guide the simplification of divisions by integers.  They would
+also show the correctness of simple but novel variations, and exploit
+their understanding of the problem domain to develop tests that are
+likely to detect incorrect transformations.
 
 * Scheduling pass
 
 * Modified structure layout
+Structure objects in Common Lisp support single inheritance and typed
+slots so as to offer both extensibility and performance.  SBCL
+implements slots of unboxed data by allocating them from the end of
+(variable-length, because of inheritance) structure objects.  Access
+to an unboxed slot thus first determines the size of the current
+object in all but a few cases.  However, nothing prevents boxed and
+unboxed slots from being interleaved, as long as alignment
+requirements are respected and the garbage collector's scanning
+routine for structures is suitably adapted.  A branch partially
+implements this improvement, and the work is assuredly feasible.  If
+completed, this project would lead to more efficient access to
+structure slots, and potentially let structures be laid out compatibly
+with some ABIs, thus simplifying foreign calls.
+
+** Deliverables
+1. Forward port the interleaved unboxed slot branch;
+2. Develop tests for the garbage collector, the interpreter, and the
+   introspection facilities;
+3. Determine how to use this new freedom in object layouts;
+4. Measure the impact of the changes on the memory usage and on the
+   runtime performance of representative programs.
+
+** Prerequisites
+Some experience with Common Lisp. Familiarity with x86 or x86-64
+assembly language is helpful but optional.
+
+** Student learning
+The student would become comfortable with data representation issues
+at a low level, develop and execute tests for a fundamental part of
+the system, and guide technical decisions with empiric measures with
+benchmarks that reflect reality.
 
 * Precise stack scanning
 

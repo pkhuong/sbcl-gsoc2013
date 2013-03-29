@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 10:33:28 CET"/>
+<meta name="generated" content="2013-03-29 10:53:29 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -207,7 +207,13 @@ lang="en" xml:lang="en">
 </ul>
 </li>
 <li><a href="#sec-22">22 Scheduling pass </a></li>
-<li><a href="#sec-23">23 Modified structure layout </a></li>
+<li><a href="#sec-23">23 Modified structure layout </a>
+<ul>
+<li><a href="#sec-23.1">23.1 Deliverables </a></li>
+<li><a href="#sec-23.2">23.2 Prerequisites </a></li>
+<li><a href="#sec-23.3">23.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-24">24 Precise stack scanning </a></li>
 <li><a href="#sec-25">25 Coarser type derivation system </a></li>
 <li><a href="#sec-26">26 CLOS sealing </a></li>
@@ -1550,8 +1556,8 @@ improve such a system.
 
 <p>Integer division is notorious for being slow.  However, it is also
 known that the divisor is constant in the vast majority of cases, and
-serious compilers thus exploit that fact to simplify divisions into
-sequences of simpler multiplication, shift and addition.  SBCL
+serious compilers exploit that fact to simplify divisions into
+sequences of simpler multiplications, shifts, and additions.  SBCL
 implements such a simplification only for truncated division of
 unsigned machine words.  Floor and ceiling are less commonly supported
 natively in programming languages, and there is a dearth of literature
@@ -1613,12 +1619,12 @@ but what little is necessary can be acquired on the fly.
 
 <p>The student would apply pure mathematics concepts from number theory
 to understand how to correctly simplify operations in computer
-programs.  They would likely develop an understanding of the
-performance characteristics of contemporary computers to decide how to
-let number theory guide the simplification of divisions by integers.
-They would also show the correctness of simple but novel
-transformations, and exploit their understanding of the problem domain
-to develop tests that are likely to detect wrong transformations.
+programs.  They would likely become acquainted with the performance
+characteristics of contemporary computers to decide how to let number
+theory guide the simplification of divisions by integers.  They would
+also show the correctness of simple but novel variations, and exploit
+their understanding of the problem domain to develop tests that are
+likely to detect incorrect transformations.
 </p>
 </div>
 </div>
@@ -1638,7 +1644,69 @@ to develop tests that are likely to detect wrong transformations.
 <h2 id="sec-23"><span class="section-number-2">23</span> Modified structure layout </h2>
 <div class="outline-text-2" id="text-23">
 
+<p>Structure objects in Common Lisp support single inheritance and typed
+slots so as to offer both extensibility and performance.  SBCL
+implements slots of unboxed data by allocating them from the end of
+(variable-length, because of inheritance) structure objects.  Access
+to an unboxed slot thus first determines the size of the current
+object in all but a few cases.  However, nothing prevents boxed and
+unboxed slots from being interleaved, as long as alignment
+requirements are respected and the garbage collector's scanning
+routine for structures is suitably adapted.  A branch partially
+implements this improvement, and the work is assuredly feasible.  If
+completed, this project would lead to more efficient access to
+structure slots, and potentially let structures be laid out compatibly
+with some ABIs, thus simplifying foreign calls.
+</p>
 
+</div>
+
+<div id="outline-container-23.1" class="outline-3">
+<h3 id="sec-23.1"><span class="section-number-3">23.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-23.1">
+
+<ol>
+<li>
+Forward port the interleaved unboxed slot branch;
+</li>
+<li>
+Develop tests for the garbage collector, the interpreter, and the
+introspection facilities;
+</li>
+<li>
+Determine how to use this new freedom in object layouts;
+</li>
+<li>
+Measure the impact of the changes on the memory usage and on the
+runtime performance of representative programs.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-23.2" class="outline-3">
+<h3 id="sec-23.2"><span class="section-number-3">23.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-23.2">
+
+<p>Some experience with Common Lisp. Familiarity with x86 or x86-64
+assembly language is helpful but optional.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-23.3" class="outline-3">
+<h3 id="sec-23.3"><span class="section-number-3">23.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-23.3">
+
+<p>The student would become comfortable with data representation issues
+at a low level, develop and execute tests for a fundamental part of
+the system, and guide technical decisions with empiric measures with
+benchmarks that reflect reality.
+</p>
+</div>
 </div>
 
 </div>
@@ -1847,7 +1915,7 @@ objects, colour them so they don't alias.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 10:33:28 CET</p>
+<p class="date"> Date: 2013-03-29 10:53:29 CET</p>
 </div>
 </div>
 </body>
