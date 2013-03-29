@@ -1,5 +1,17 @@
-#+OPTIONS: author:nil email:nil creator:nil
+#+OPTIONS: author:nil email:nil creator:nil toc:2
 #+TITLE: Project Ideas
+
+This page provides an overview of a few projects that seem doable over
+the course of approximately two months of thinking and programming,
+for someone who isn't yet acquainted with our code base. The list
+might seem long and daunting, the hope is that any single one of the
+projects would prove to be an interesting, but solvable,
+challenge. Moreover, we expect the projects to lead to tangible
+results quickly (after a couple days or two weeks of hacking at most),
+and that the goals could be extended in challenging and exciting
+directions as more milestones will be reached.
+
+[TABLE-OF-CONTENTS]
 
 * Improvements to the library
 This section contains projects for which the work lies mainly in

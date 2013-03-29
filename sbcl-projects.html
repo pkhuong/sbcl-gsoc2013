@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 23:47:01 CET"/>
+<meta name="generated" content="2013-03-29 23:59:54 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -72,192 +72,62 @@ lang="en" xml:lang="en">
 
 <h1 class="title">Project Ideas</h1>
 
-
+<p>This page provides an overview of a few projects that seem doable over
+the course of approximately two months of thinking and programming,
+for someone who isn't yet acquainted with our code base. The list
+might seem long and daunting, the hope is that any single one of the
+projects would prove to be an interesting, but solvable,
+challenge. Moreover, we expect the projects to lead to tangible
+results quickly (after a couple days or two weeks of hacking at most),
+and that the goals could be extended in challenging and exciting
+directions as more milestones will be reached.
+</p>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1 Improvements to the library </a>
 <ul>
-<li><a href="#sec-1.1">1.1 Unicode Integration </a>
-<ul>
-<li><a href="#sec-1.1.1">1.1.1 Deliverables </a></li>
-<li><a href="#sec-1.1.2">1.1.2 Prerequisites </a></li>
-<li><a href="#sec-1.1.3">1.1.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.2">1.2 Exploiting GMP for bignum and rational arithmetic </a>
-<ul>
-<li><a href="#sec-1.2.1">1.2.1 Deliverables </a></li>
-<li><a href="#sec-1.2.2">1.2.2 Prerequisites </a></li>
-<li><a href="#sec-1.2.3">1.2.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.3">1.3 Flexible (pseudo) random number generation </a>
-<ul>
-<li><a href="#sec-1.3.1">1.3.1 Deliverables </a></li>
-<li><a href="#sec-1.3.2">1.3.2 Prerequisites </a></li>
-<li><a href="#sec-1.3.3">1.3.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.4">1.4 Vectorised sequence operations </a>
-<ul>
-<li><a href="#sec-1.4.1">1.4.1 Deliverables </a></li>
-<li><a href="#sec-1.4.2">1.4.2 Prerequisites </a></li>
-<li><a href="#sec-1.4.3">1.4.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.5">1.5 More efficient hash functions and hash tables </a>
-<ul>
-<li><a href="#sec-1.5.1">1.5.1 Deliverables </a></li>
-<li><a href="#sec-1.5.2">1.5.2 Prerequisite </a></li>
-<li><a href="#sec-1.5.3">1.5.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.6">1.6 Efficient interpretation </a>
-<ul>
-<li><a href="#sec-1.6.1">1.6.1 Deliverables </a></li>
-<li><a href="#sec-1.6.2">1.6.2 Prerequisite </a></li>
-<li><a href="#sec-1.6.3">1.6.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.7">1.7 Improving the thread-safety of the object system </a>
-<ul>
-<li><a href="#sec-1.7.1">1.7.1 Deliverables </a></li>
-<li><a href="#sec-1.7.2">1.7.2 Prerequisites </a></li>
-<li><a href="#sec-1.7.3">1.7.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-1.8">1.8 Threading/locking debugging facilities </a>
-<ul>
-<li><a href="#sec-1.8.1">1.8.1 Deliverables </a></li>
-<li><a href="#sec-1.8.2">1.8.2 Prerequisites </a></li>
-<li><a href="#sec-1.8.3">1.8.3 Student learning </a></li>
-</ul></li>
+<li><a href="#sec-1.1">1.1 Unicode Integration </a></li>
+<li><a href="#sec-1.2">1.2 Exploiting GMP for bignum and rational arithmetic </a></li>
+<li><a href="#sec-1.3">1.3 Flexible (pseudo) random number generation </a></li>
+<li><a href="#sec-1.4">1.4 Vectorised sequence operations </a></li>
+<li><a href="#sec-1.5">1.5 More efficient hash functions and hash tables </a></li>
+<li><a href="#sec-1.6">1.6 Efficient interpretation </a></li>
+<li><a href="#sec-1.7">1.7 Improving the thread-safety of the object system </a></li>
+<li><a href="#sec-1.8">1.8 Threading/locking debugging facilities </a></li>
 </ul>
 </li>
 <li><a href="#sec-2">2 High-level optimisation </a>
 <ul>
-<li><a href="#sec-2.1">2.1 Efficient integer truncate/floor/ceiling by constants </a>
-<ul>
-<li><a href="#sec-2.1.1">2.1.1 Deliverables </a></li>
-<li><a href="#sec-2.1.2">2.1.2 Prerequisites </a></li>
-<li><a href="#sec-2.1.3">2.1.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-2.2">2.2 Exploiting switch/case in standard control structures </a>
-<ul>
-<li><a href="#sec-2.2.1">2.2.1 Deliverables </a></li>
-<li><a href="#sec-2.2.2">2.2.2 Prerequisites </a></li>
-<li><a href="#sec-2.2.3">2.2.3 Student learning </a></li>
-</ul></li>
+<li><a href="#sec-2.1">2.1 Efficient integer truncate/floor/ceiling by constants </a></li>
+<li><a href="#sec-2.2">2.2 Exploiting switch/case in standard control structures </a></li>
 </ul>
 </li>
 <li><a href="#sec-3">3 Middle end infrastructure </a>
 <ul>
-<li><a href="#sec-3.1">3.1 Accurate and correct numeric type derivation </a>
-<ul>
-<li><a href="#sec-3.1.1">3.1.1 Deliverables </a></li>
-<li><a href="#sec-3.1.2">3.1.2 Prerequisites </a></li>
-<li><a href="#sec-3.1.3">3.1.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-3.2">3.2 Expression optimisation </a>
-<ul>
-<li><a href="#sec-3.2.1">3.2.1 Deliverables </a></li>
-<li><a href="#sec-3.2.2">3.2.2 Prerequisite </a></li>
-<li><a href="#sec-3.2.3">3.2.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-3.3">3.3 Coarser type derivation system </a>
-<ul>
-<li><a href="#sec-3.3.1">3.3.1 Deliverables </a></li>
-<li><a href="#sec-3.3.2">3.3.2 Prerequisites </a></li>
-<li><a href="#sec-3.3.3">3.3.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-3.4">3.4 Quick compilation </a>
-<ul>
-<li><a href="#sec-3.4.1">3.4.1 Deliverables </a></li>
-<li><a href="#sec-3.4.2">3.4.2 Prerequisites </a></li>
-<li><a href="#sec-3.4.3">3.4.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-3.5">3.5 Precise type derivation </a>
-<ul>
-<li><a href="#sec-3.5.1">3.5.1 Deliverables </a></li>
-<li><a href="#sec-3.5.2">3.5.2 Prerequisites </a></li>
-<li><a href="#sec-3.5.3">3.5.3 Student learning </a></li>
-</ul></li>
+<li><a href="#sec-3.1">3.1 Accurate and correct numeric type derivation </a></li>
+<li><a href="#sec-3.2">3.2 Expression optimisation </a></li>
+<li><a href="#sec-3.3">3.3 Coarser type derivation system </a></li>
+<li><a href="#sec-3.4">3.4 Quick compilation </a></li>
+<li><a href="#sec-3.5">3.5 Precise type derivation </a></li>
 </ul>
 </li>
 <li><a href="#sec-4">4 Back end work </a>
 <ul>
-<li><a href="#sec-4.1">4.1 Modernising a graph-colouring register allocator </a>
-<ul>
-<li><a href="#sec-4.1.1">4.1.1 Deliverables </a></li>
-<li><a href="#sec-4.1.2">4.1.2 Prerequisites </a></li>
-<li><a href="#sec-4.1.3">4.1.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-4.2">4.2 Selecting concrete representations cleverly </a>
-<ul>
-<li><a href="#sec-4.2.1">4.2.1 Deliverables </a></li>
-<li><a href="#sec-4.2.2">4.2.2 Prerequisites </a></li>
-<li><a href="#sec-4.2.3">4.2.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-4.3">4.3 Peephole optimisation </a>
-<ul>
-<li><a href="#sec-4.3.1">4.3.1 Deliverables </a></li>
-<li><a href="#sec-4.3.2">4.3.2 Prerequisites </a></li>
-<li><a href="#sec-4.3.3">4.3.3 Student learning </a></li>
-</ul></li>
+<li><a href="#sec-4.1">4.1 Modernising a graph-colouring register allocator </a></li>
+<li><a href="#sec-4.2">4.2 Selecting concrete representations cleverly </a></li>
+<li><a href="#sec-4.3">4.3 Peephole optimisation </a></li>
 </ul>
 </li>
 <li><a href="#sec-5">5 Diving in the runtime system </a>
 <ul>
-<li><a href="#sec-5.1">5.1 Simpler structure layout </a>
-<ul>
-<li><a href="#sec-5.1.1">5.1.1 Deliverables </a></li>
-<li><a href="#sec-5.1.2">5.1.2 Prerequisites </a></li>
-<li><a href="#sec-5.1.3">5.1.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-5.2">5.2 Software write barriers </a>
-<ul>
-<li><a href="#sec-5.2.1">5.2.1 Deliverables </a></li>
-<li><a href="#sec-5.2.2">5.2.2 Prerequisites </a></li>
-<li><a href="#sec-5.2.3">5.2.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-5.3">5.3 Improving SBCL's memory allocator </a>
-<ul>
-<li><a href="#sec-5.3.1">5.3.1 Deliverables </a></li>
-<li><a href="#sec-5.3.2">5.3.2 Prerequisites </a></li>
-<li><a href="#sec-5.3.3">5.3.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-5.4">5.4 Garbage collection debugging and heap assertions </a>
-<ul>
-<li><a href="#sec-5.4.1">5.4.1 Deliverables </a></li>
-<li><a href="#sec-5.4.2">5.4.2 Prerequisites </a></li>
-<li><a href="#sec-5.4.3">5.4.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-5.5">5.5 A hybrid copying/mark-and-sweep garbage collector </a>
-<ul>
-<li><a href="#sec-5.5.1">5.5.1 Deliverables </a></li>
-<li><a href="#sec-5.5.2">5.5.2 Prerequisites </a></li>
-<li><a href="#sec-5.5.3">5.5.3 Student learning </a></li>
-</ul>
-</li>
-<li><a href="#sec-5.6">5.6 Replacing the garbage collector with MPS </a>
-<ul>
-<li><a href="#sec-5.6.1">5.6.1 Deliverables </a></li>
-<li><a href="#sec-5.6.2">5.6.2 Prerequisites </a></li>
-<li><a href="#sec-5.6.3">5.6.3 Student learning </a></li>
-</ul></li>
+<li><a href="#sec-5.1">5.1 Simpler structure layout </a></li>
+<li><a href="#sec-5.2">5.2 Software write barriers </a></li>
+<li><a href="#sec-5.3">5.3 Improving SBCL's memory allocator </a></li>
+<li><a href="#sec-5.4">5.4 Garbage collection debugging and heap assertions </a></li>
+<li><a href="#sec-5.5">5.5 A hybrid copying/mark-and-sweep garbage collector </a></li>
+<li><a href="#sec-5.6">5.6 Replacing the garbage collector with MPS </a></li>
 </ul>
 </li>
 <li><a href="#sec-6">6 Projects that may be further described if there is interest </a>
@@ -290,6 +160,7 @@ lang="en" xml:lang="en">
 </ul>
 </div>
 </div>
+
 
 <div id="outline-container-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> Improvements to the library </h2>
@@ -2373,7 +2244,7 @@ benefits in terms of image size.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 23:47:01 CET</p>
+<p class="date"> Date: 2013-03-29 23:59:54 CET</p>
 </div>
 </div>
 </body>
