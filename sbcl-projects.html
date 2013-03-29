@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 14:50:47 CET"/>
+<meta name="generated" content="2013-03-29 15:17:27 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -233,7 +233,13 @@ lang="en" xml:lang="en">
 </li>
 <li><a href="#sec-29">29 utf-8b </a></li>
 <li><a href="#sec-30">30 Free-er form displaced arrays </a></li>
-<li><a href="#sec-31">31 Accurate type derivation </a></li>
+<li><a href="#sec-31">31 Precise type derivation </a>
+<ul>
+<li><a href="#sec-31.1">31.1 Deliverables </a></li>
+<li><a href="#sec-31.2">31.2 Prerequisites </a></li>
+<li><a href="#sec-31.3">31.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-32">32 Faster FASL loading </a></li>
 <li><a href="#sec-33">33 Accurate and correct numeric type derivation </a></li>
 <li><a href="#sec-34">34 Contracts </a></li>
@@ -1933,11 +1939,77 @@ convincingly exhibit these improvements.
 </div>
 
 <div id="outline-container-31" class="outline-2">
-<h2 id="sec-31"><span class="section-number-2">31</span> Accurate type derivation </h2>
+<h2 id="sec-31"><span class="section-number-2">31</span> Precise type derivation </h2>
 <div class="outline-text-2" id="text-31">
 
-<p>Look for an LFP instead of starting at T.
-</p></div>
+<p>SBCL and CMUCL are recognized for the strength of their type-directed
+optimisations, which depends on the quality of the type propagation
+pass.  That pass exhibits severe weaknesses in the presence of
+recursion or of assignments: such non-trivial bindings are initialised
+with a static type of T (barring any user-provided declaration), and
+that type is iteratively tightened.  This approach has the advantage
+of always assigning correct types at any time, even if a fixpoint is
+not yet reached.  However, when compilation times are not an issue and
+the analysis is executed until termination, initialising bindings with
+a static time of NIL (the bottom type) and widening the type
+assignments iteratively would result in the automatic derivation of
+more precise types.  If completed, this project would implement such a
+precise flow-sensitive data-flow analysis, and let it be enabled on
+demand within the normal compilation pipeline.
+</p>
+
+</div>
+
+<div id="outline-container-31.1" class="outline-3">
+<h3 id="sec-31.1"><span class="section-number-3">31.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-31.1">
+
+<ol>
+<li>
+Code samples exhibiting disastrously weak type derivation;
+</li>
+<li>
+A correct and probably very slow (or even non-terminating)
+implementation of a precise type derivation pass;
+</li>
+<li>
+Integration of that pass in the compilation pipeline;
+</li>
+<li>
+(optional) Experiments with strategies to ensure the pass
+terminates after reasonable computation times.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-31.2" class="outline-3">
+<h3 id="sec-31.2"><span class="section-number-3">31.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-31.2">
+
+<p>Proficiency in discrete mathematics, particularly set theory.  The
+student is expected to become familiar with data flow analyses in the
+course of the project.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-31.3" class="outline-3">
+<h3 id="sec-31.3"><span class="section-number-3">31.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-31.3">
+
+<p>The student will learn to apply abstract concepts in the design of a
+data flow analysis pass for an impure language.  They will do so
+within the limits of a standards-defined language that is not
+explicitly designed to enable sophisticated static analyses.  Finally,
+they will research and discover strategies to render practically
+usable a theoretically correct symbolic process.
+</p>
+</div>
+</div>
 
 </div>
 
@@ -2069,7 +2141,7 @@ convincingly exhibit these improvements.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 14:50:47 CET</p>
+<p class="date"> Date: 2013-03-29 15:17:27 CET</p>
 </div>
 </div>
 </body>

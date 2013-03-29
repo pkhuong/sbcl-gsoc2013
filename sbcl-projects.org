@@ -787,8 +787,43 @@ convincingly exhibit these improvements.
 
 * Free-er form displaced arrays
 
-* Accurate type derivation
-Look for an LFP instead of starting at T.
+* Precise type derivation
+SBCL and CMUCL are recognized for the strength of their type-directed
+optimisations, which depends on the quality of the type propagation
+pass.  That pass exhibits severe weaknesses in the presence of
+recursion or of assignments: such non-trivial bindings are initialised
+with a static type of T (barring any user-provided declaration), and
+that type is iteratively tightened.  This approach has the advantage
+of always assigning correct types at any time, even if a fixpoint is
+not yet reached.  However, when compilation times are not an issue and
+the analysis is executed until termination, initialising bindings with
+a static time of NIL (the bottom type) and widening the type
+assignments iteratively would result in the automatic derivation of
+more precise types.  If completed, this project would implement such a
+precise flow-sensitive data-flow analysis, and let it be enabled on
+demand within the normal compilation pipeline.
+
+** Deliverables
+1. Code samples exhibiting disastrously weak type derivation;
+2. A correct and probably very slow (or even non-terminating)
+   implementation of a precise type derivation pass;
+3. Integration of that pass in the compilation pipeline;
+4. (optional) Experiments with strategies to ensure the pass
+   terminates after reasonable computation times.
+
+** Prerequisites
+Proficiency in discrete mathematics, particularly set theory.  The
+student is expected to become familiar with data flow analyses in the
+course of the project.
+
+** Student learning
+The student will learn to apply abstract concepts in the design of a
+data flow analysis pass for an impure language.  They will do so
+within the limits of a standards-defined language that is not
+explicitly designed to enable sophisticated static analyses.  Finally,
+they will research and discover strategies to render practically
+usable a theoretically correct symbolic process.
+
 * Faster FASL loading
 * Accurate and correct numeric type derivation
 * Contracts
