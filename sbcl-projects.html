@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 15:17:27 CET"/>
+<meta name="generated" content="2013-03-29 15:39:00 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -241,7 +241,13 @@ lang="en" xml:lang="en">
 </ul>
 </li>
 <li><a href="#sec-32">32 Faster FASL loading </a></li>
-<li><a href="#sec-33">33 Accurate and correct numeric type derivation </a></li>
+<li><a href="#sec-33">33 Accurate and correct numeric type derivation </a>
+<ul>
+<li><a href="#sec-33.1">33.1 Deliverables </a></li>
+<li><a href="#sec-33.2">33.2 Prerequisites </a></li>
+<li><a href="#sec-33.3">33.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-34">34 Contracts </a></li>
 <li><a href="#sec-35">35 Parametric recursive types </a></li>
 <li><a href="#sec-36">36 MPFR for long floats </a></li>
@@ -2025,6 +2031,68 @@ usable a theoretically correct symbolic process.
 <h2 id="sec-33"><span class="section-number-2">33</span> Accurate and correct numeric type derivation </h2>
 <div class="outline-text-2" id="text-33">
 
+<p>The static derivation of intervals for the values taken by
+mathematical operations is essential for Common Lisp compilers to
+convert idiomatic programs to machine code comparable with that of
+less safe languages.  SBCL's implementation is fairly complicated, and
+seems subtly incorrect for floating-point types, particularly when the
+rounding mode differs between the compilation and execution
+environments.  Upon completion, this project would result in simpler
+and more robust routines to propagate numeric intervals for SBCL.
+</p>
+
+</div>
+
+<div id="outline-container-33.1" class="outline-3">
+<h3 id="sec-33.1"><span class="section-number-3">33.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-33.1">
+
+<ol>
+<li>
+A naïve but clearly correct interval derivation module;
+</li>
+<li>
+Development of test cases to trigger issues in numeric
+(floating-point) type derivation;
+</li>
+<li>
+More sophisticated interval derivations;
+</li>
+<li>
+(optional) Express the interval derivation logic in portable Common
+Lisp for the cross-compiler.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-33.2" class="outline-3">
+<h3 id="sec-33.2"><span class="section-number-3">33.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-33.2">
+
+<p>Some real analysis. Minimal familiarity with numerical analysis and
+with the implementation of floating-point arithmetic in computers.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-33.3" class="outline-3">
+<h3 id="sec-33.3"><span class="section-number-3">33.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-33.3">
+
+<p>The student will bridge between their understanding of mathematical
+operations with their concrete approximation in contemporary computers
+to safely characterise the behaviour of arbitrary Common Lisp
+expressions.  They will thus acquire experience with simple numerical
+analysis, and become acquainted with the difference between
+theoretical mathematics and floating-point operations.  They will also
+learn to exploit the concrete representation of floating-point values
+to implement simple and efficient, but correct numerical algorithms.
+</p>
+</div>
 </div>
 
 </div>
@@ -2141,7 +2209,7 @@ usable a theoretically correct symbolic process.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 15:17:27 CET</p>
+<p class="date"> Date: 2013-03-29 15:39:00 CET</p>
 </div>
 </div>
 </body>

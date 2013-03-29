@@ -826,6 +826,37 @@ usable a theoretically correct symbolic process.
 
 * Faster FASL loading
 * Accurate and correct numeric type derivation
+The static derivation of intervals for the values taken by
+mathematical operations is essential for Common Lisp compilers to
+convert idiomatic programs to machine code comparable with that of
+less safe languages.  SBCL's implementation is fairly complicated, and
+seems subtly incorrect for floating-point types, particularly when the
+rounding mode differs between the compilation and execution
+environments.  Upon completion, this project would result in simpler
+and more robust routines to propagate numeric intervals for SBCL.
+
+** Deliverables
+1. A naïve but clearly correct interval derivation module;
+2. Development of test cases to trigger issues in numeric
+   (floating-point) type derivation;
+3. More sophisticated interval derivations;
+4. (optional) Express the interval derivation logic in portable Common
+   Lisp for the cross-compiler.
+
+** Prerequisites
+Some real analysis. Minimal familiarity with numerical analysis and
+with the implementation of floating-point arithmetic in computers.
+
+** Student learning
+The student will bridge between their understanding of mathematical
+operations with their concrete approximation in contemporary computers
+to safely characterise the behaviour of arbitrary Common Lisp
+expressions.  They will thus acquire experience with simple numerical
+analysis, and become acquainted with the difference between
+theoretical mathematics and floating-point operations.  They will also
+learn to exploit the concrete representation of floating-point values
+to implement simple and efficient, but correct numerical algorithms.
+
 * Contracts
 * Parametric recursive types
 * MPFR for long floats
