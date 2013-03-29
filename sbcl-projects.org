@@ -324,7 +324,7 @@ standard flow control macros.  This project would greatly improve the
 performance of some state machines implementations, and benefit to a
 wide range of programs that use standard case constructs directly.
   
-*** Deliverable
+*** Deliverables
 1. Forward-port the indirect-jump patch;
 2. Expose the new operator in a standard-compliant manner;
 3. Create benchmarks to understand how to best use this new operator;
@@ -862,7 +862,7 @@ would deeply integrate a complex library in a large system by
 characterising their respective requirements and judiciously inserting
 logic to make the two designs compatible.
   
-*** Deliverable
+*** Deliverables
 1. Description of the interface between SBCL's runtime and its memory
    management subsystem;
 2. Stand-alone program that interfaces with MPS and presents
