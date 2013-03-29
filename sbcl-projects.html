@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 14:04:29 CET"/>
+<meta name="generated" content="2013-03-29 14:50:47 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -224,7 +224,13 @@ lang="en" xml:lang="en">
 </li>
 <li><a href="#sec-26">26 CLOS sealing </a></li>
 <li><a href="#sec-27">27 Unboxed calling convention </a></li>
-<li><a href="#sec-28">28 Improving SBCL's memory allocator </a></li>
+<li><a href="#sec-28">28 Improving SBCL's memory allocator </a>
+<ul>
+<li><a href="#sec-28.1">28.1 Deliverables </a></li>
+<li><a href="#sec-28.2">28.2 Prerequisites </a></li>
+<li><a href="#sec-28.3">28.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-29">29 utf-8b </a></li>
 <li><a href="#sec-30">30 Free-er form displaced arrays </a></li>
 <li><a href="#sec-31">31 Accurate type derivation </a></li>
@@ -1798,9 +1804,9 @@ course of the project.
 
 <p>The student will acquire experience at profiling a complex symbolic
 manipulation system. They will then apply their results to improve the
-practical performance of the system, while preserving it mathematical
-correctness.  They will also gain a stronger mastery of static (data
-flow) analyses for a practical impure language.
+practical performance of the system, while preserving its mathematical
+correctness.  They will also strengthen their mastery of the static
+(data flow) analysis of impure languages.
 </p>
 </div>
 </div>
@@ -1830,11 +1836,80 @@ flow) analyses for a practical impure language.
 <h2 id="sec-28"><span class="section-number-2">28</span> Improving SBCL's memory allocator </h2>
 <div class="outline-text-2" id="text-28">
 
-
-<p>
-Avoid interleaving boxed/unboxed pages, stop misaligning large
-objects, colour them so they don't alias.
+<p>SBCL's memory management system includes a page-level block allocator.
+It is mainly used to manage large objects and thread-local allocation
+regions.  The scheme exhibits at least two clear deficiencies. First,
+large objects are always allocated on page boundaries, exacerbating
+cache aliasing issues, in addition to, in effect, misaligning the
+contents of vectors.  Second, normal (pointer-ful) and unboxed
+(pointer-free) blocks are interleaved, but regular pages tend to be
+write-protected and unboxed pages never are; these short ranges of
+addresses with different properties increase the address space
+management overhead for the operating system, which is reflected in
+long times spent in system code.  There are likely other problems that
+can be improved with little effort; for example, the proportion of
+zeros in image files hints at a fragmentation issue.
 </p>
+<p>
+Upon completion, this project would have lead to the identification of
+systems-level issues in SBCL's memory management strategies, and to
+the application of changes to eliminate or alleviate these issues.
+</p>
+
+</div>
+
+<div id="outline-container-28.1" class="outline-3">
+<h3 id="sec-28.1"><span class="section-number-3">28.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-28.1">
+
+<ol>
+<li>
+Microbenchmarks to understand the effect of aliasing and data
+misalignment when processing large (vector) data;
+</li>
+<li>
+Development of alternative large object allocation and deallocation
+routines that improve the cache utilisation of SBCL;
+</li>
+<li>
+Development of a block allocation strategy that is better suited to
+the algorithms and data structures operating systems use to manage
+ranges of virtual memory;
+</li>
+<li>
+(optional) Identification of further global issues in SBCL's memory
+management.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-28.2" class="outline-3">
+<h3 id="sec-28.2"><span class="section-number-3">28.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-28.2">
+
+<p>Proficiency in C.  Basic understanding of computer architecture and of
+contemporary operating systems.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-28.3" class="outline-3">
+<h3 id="sec-28.3"><span class="section-number-3">28.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-28.3">
+
+<p>The student will gain concrete experience at debugging and tuning the
+performance of a complete system, with interactions between a managed
+language runtime, the operating system, and the CPU's
+microarchitecture.  In addition to applying concepts from computer
+architecture and operating systems theory to improve the performance
+of a runtime system, they will also apply statistical techniques to
+convincingly exhibit these improvements.
+</p>
+</div>
 </div>
 
 </div>
@@ -1994,7 +2069,7 @@ objects, colour them so they don't alias.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 14:04:29 CET</p>
+<p class="date"> Date: 2013-03-29 14:50:47 CET</p>
 </div>
 </div>
 </body>

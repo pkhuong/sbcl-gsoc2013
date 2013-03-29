@@ -731,9 +731,9 @@ course of the project.
 ** Student learning
 The student will acquire experience at profiling a complex symbolic
 manipulation system. They will then apply their results to improve the
-practical performance of the system, while preserving it mathematical
-correctness.  They will also gain a stronger mastery of static (data
-flow) analyses for a practical impure language.
+practical performance of the system, while preserving its mathematical
+correctness.  They will also strengthen their mastery of the static
+(data flow) analysis of impure languages.
 
 * CLOS sealing
 
@@ -741,9 +741,47 @@ flow) analyses for a practical impure language.
 
 
 * Improving SBCL's memory allocator
+SBCL's memory management system includes a page-level block allocator.
+It is mainly used to manage large objects and thread-local allocation
+regions.  The scheme exhibits at least two clear deficiencies. First,
+large objects are always allocated on page boundaries, exacerbating
+cache aliasing issues, in addition to, in effect, misaligning the
+contents of vectors.  Second, normal (pointer-ful) and unboxed
+(pointer-free) blocks are interleaved, but regular pages tend to be
+write-protected and unboxed pages never are; these short ranges of
+addresses with different properties increase the address space
+management overhead for the operating system, which is reflected in
+long times spent in system code.  There are likely other problems that
+can be improved with little effort; for example, the proportion of
+zeros in image files hints at a fragmentation issue.
 
-Avoid interleaving boxed/unboxed pages, stop misaligning large
-objects, colour them so they don't alias.
+Upon completion, this project would have lead to the identification of
+systems-level issues in SBCL's memory management strategies, and to
+the application of changes to eliminate or alleviate these issues.
+
+** Deliverables
+1. Microbenchmarks to understand the effect of aliasing and data
+   misalignment when processing large (vector) data;
+2. Development of alternative large object allocation and deallocation
+   routines that improve the cache utilisation of SBCL;
+3. Development of a block allocation strategy that is better suited to
+   the algorithms and data structures operating systems use to manage
+   ranges of virtual memory;
+4. (optional) Identification of further global issues in SBCL's memory
+   management.
+
+** Prerequisites
+Proficiency in C.  Basic understanding of computer architecture and of
+contemporary operating systems.
+
+** Student learning
+The student will gain concrete experience at debugging and tuning the
+performance of a complete system, with interactions between a managed
+language runtime, the operating system, and the CPU's
+microarchitecture.  In addition to applying concepts from computer
+architecture and operating systems theory to improve the performance
+of a runtime system, they will also apply statistical techniques to
+convincingly exhibit these improvements.
 
 * utf-8b
 
