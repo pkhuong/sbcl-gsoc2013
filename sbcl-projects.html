@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 01:41:38 CET"/>
+<meta name="generated" content="2013-03-29 09:33:35 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -178,8 +178,20 @@ lang="en" xml:lang="en">
 </ul>
 </li>
 <li><a href="#sec-17">17 Allocation pools </a></li>
-<li><a href="#sec-18">18 Replacing the garbage collector with MPS </a></li>
-<li><a href="#sec-19">19 A hybrid copying/mark-and-sweep garbage collector </a></li>
+<li><a href="#sec-18">18 Replacing the garbage collector with MPS </a>
+<ul>
+<li><a href="#sec-18.1">18.1 Deliverable </a></li>
+<li><a href="#sec-18.2">18.2 Prerequisites </a></li>
+<li><a href="#sec-18.3">18.3 Student learning </a></li>
+</ul>
+</li>
+<li><a href="#sec-19">19 A hybrid copying/mark-and-sweep garbage collector </a>
+<ul>
+<li><a href="#sec-19.1">19.1 Deliverables </a></li>
+<li><a href="#sec-19.2">19.2 Prerequisites </a></li>
+<li><a href="#sec-19.3">19.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-20">20 Software write barriers </a></li>
 <li><a href="#sec-21">21 Efficient integer truncate/floor/ceiling by constants </a></li>
 <li><a href="#sec-22">22 Scheduling pass </a></li>
@@ -1214,12 +1226,12 @@ variable's values to be represented in different manners at distinct
 program points, as long as conversion code is inserted at key
 locations.  In particular, this additional leeway imposes a very low
 overhead if it is only exploited within each basic block.  This
-project demands creativity to understand an exotic combinatorial
+project requires creativity to understand an exotic combinatorial
 optimisation problem and determine how best to tackle it and adapt
 existing methods; if successful, it would likely result in the
 development of a novel algorithm for a problem essential to the
 performance of dynamically-typed languages, and its application in a
-pre-existing compiler, thus showing clear gains.
+pre-existing compiler, thus showing clear practical improvement.
 </p>
 
 </div>
@@ -1270,12 +1282,12 @@ mathematics and of graph theory.
 <div class="outline-text-3" id="text-16.3">
 
 <p>The student will learn to describe a complicated, industrial,
-combinatorial optimisation problem formally, and attempt to reduce it
-to classic optimisation problems.  They will then have an opportunity
-to exploit this theoretical basis to improve on an existing heuristic,
-in practice.  Finally, they will be lead to revisit a formal model to
-better represent the actual problem, while ensuring the existence of
-efficient solving methods.
+combinatorial optimisation problem formally, and to reduce it to
+classic optimisation problems.  They will then have an opportunity to
+exploit this theoretical basis to improve on an existing heuristic, in
+practice.  Finally, they will be lead to iteratively improve that
+formal model to better represent the actual problem, while ensuring
+the existence of efficient solving methods.
 </p>
 </div>
 </div>
@@ -1295,7 +1307,74 @@ efficient solving methods.
 <h2 id="sec-18"><span class="section-number-2">18</span> Replacing the garbage collector with MPS </h2>
 <div class="outline-text-2" id="text-18">
 
+<p>SBCL's garbage collector is well-modularised, but shares code only
+with CMUCL, and suffers from a rigid design.  Ravenbrook's Memory Pool
+System (MPS) is a flexible, high-performance, open source memory
+management subsystem, and SBCL would likely gain in performance and in
+robustnessby replacing its specialised garbage collector with MPS,
+augmented with SBCL-specific extensions.  If successful, this project
+would deeply integrate a complex library in a large system by
+characterising their respective requirements and judiciously inserting
+logic to make the two designs compatible.
+</p>
 
+</div>
+
+<div id="outline-container-18.1" class="outline-3">
+<h3 id="sec-18.1"><span class="section-number-3">18.1</span> Deliverable </h3>
+<div class="outline-text-3" id="text-18.1">
+
+<ol>
+<li>
+Description of the interface between SBCL's runtime and its memory
+management subsystem;
+</li>
+<li>
+Stand-alone program that interfaces with MPS and presents
+challenges similar to that of SBCL (tagged pointers, several types
+of weaknesses, some data layout described by normal heap objects,
+ability to load a heap from disk, etc.);
+</li>
+<li>
+Port the stand-alone program's design to SBCL, for a single
+platform;
+</li>
+<li>
+(optional) Determine which pools are better suited to Common Lisp,
+and how to expose that choice to users.
+</li>
+<li>
+(optional) Port SBCL/MPS to several platforms.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-18.2" class="outline-3">
+<h3 id="sec-18.2"><span class="section-number-3">18.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-18.2">
+
+<p>Knowledge of C and understanding of operating systems internals.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-18.3" class="outline-3">
+<h3 id="sec-18.3"><span class="section-number-3">18.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-18.3">
+
+<p>The student will become familiar with the memory management subsystem
+used in a managed language that supports OS threads, and with the
+internals of a state of the art garbage collector.  They will then
+gain experience with the integration of independently-developed
+systems.  They will also interface directly with the operating systems
+as required for the development of a performance-oriented runtime
+system.
+</p>
+</div>
 </div>
 
 </div>
@@ -1304,7 +1383,75 @@ efficient solving methods.
 <h2 id="sec-19"><span class="section-number-2">19</span> A hybrid copying/mark-and-sweep garbage collector </h2>
 <div class="outline-text-2" id="text-19">
 
+<p>SBCL's garbage collector is a mostly-copying generational garbage
+collector (gencgc).  Heap sizes have grown by multiple orders of
+magnitude since the era when gencgc was designed.  It now seems
+interesting to only use a copying garbage collector for
+newly-allocated data, and to reduce writes to older data by performing
+major collections with a mark-and-sweep pass.  Depending on the
+student's affinity, this may prove to be less work or more interesting
+than integrating a third-party design.  Completion of this project
+entails the development of a memory management subsystem, including
+difficult software development choices.  The result would be
+improvements in the responsiveness and throughput of a production
+language implementation.
+</p>
 
+</div>
+
+<div id="outline-container-19.1" class="outline-3">
+<h3 id="sec-19.1"><span class="section-number-3">19.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-19.1">
+
+<ol>
+<li>
+Description of the interface between SBCL's runtime and its memory
+management subsystem;
+</li>
+<li>
+Implementation of mark-and-sweep in a distinct heap from the
+current copying one, with eviction from the copying heap to the
+mark-and-sweep heap;
+</li>
+<li>
+Integration of the mark-and-sweep heap with the copying heap and
+its data structures;
+</li>
+<li>
+(optional) Adaptation of mark-and-sweep GC to efficiently load
+images and to save less fragmented images;
+</li>
+<li>
+(optional) Improved performance on read-mostly data.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-19.2" class="outline-3">
+<h3 id="sec-19.2"><span class="section-number-3">19.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-19.2">
+
+<p>Knowledge of C and understanding of operating systems internals. 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-19.3" class="outline-3">
+<h3 id="sec-19.3"><span class="section-number-3">19.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-19.3">
+
+<p>The student will appreciate the challenges faced by the
+implementations of languages with managed memory.  They will
+understand the theory of classic garbage collection and memory
+management algorithms, and implement them.  They will also develop
+code that interacts directly with the operating system in order to
+manage resources efficiently.
+</p>
+</div>
 </div>
 
 </div>
@@ -1549,7 +1696,7 @@ objects, colour them so they don't alias.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 01:41:38 CET</p>
+<p class="date"> Date: 2013-03-29 09:33:35 CET</p>
 </div>
 </div>
 </body>

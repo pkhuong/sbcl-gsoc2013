@@ -472,12 +472,12 @@ variable's values to be represented in different manners at distinct
 program points, as long as conversion code is inserted at key
 locations.  In particular, this additional leeway imposes a very low
 overhead if it is only exploited within each basic block.  This
-project demands creativity to understand an exotic combinatorial
+project requires creativity to understand an exotic combinatorial
 optimisation problem and determine how best to tackle it and adapt
 existing methods; if successful, it would likely result in the
 development of a novel algorithm for a problem essential to the
 performance of dynamically-typed languages, and its application in a
-pre-existing compiler, thus showing clear gains.
+pre-existing compiler, thus showing clear practical improvement.
 
 ** Deliverables
 1. Describe the objective and constraints in the representation
@@ -496,18 +496,87 @@ mathematics and of graph theory.
 
 ** Student learning
 The student will learn to describe a complicated, industrial,
-combinatorial optimisation problem formally, and attempt to reduce it
-to classic optimisation problems.  They will then have an opportunity
-to exploit this theoretical basis to improve on an existing heuristic,
-in practice.  Finally, they will be lead to revisit a formal model to
-better represent the actual problem, while ensuring the existence of
-efficient solving methods.
+combinatorial optimisation problem formally, and to reduce it to
+classic optimisation problems.  They will then have an opportunity to
+exploit this theoretical basis to improve on an existing heuristic, in
+practice.  Finally, they will be lead to iteratively improve that
+formal model to better represent the actual problem, while ensuring
+the existence of efficient solving methods.
 
 * Allocation pools
 
 * Replacing the garbage collector with MPS
+SBCL's garbage collector is well-modularised, but shares code only
+with CMUCL, and suffers from a rigid design.  Ravenbrook's Memory Pool
+System (MPS) is a flexible, high-performance, open source memory
+management subsystem, and SBCL would likely gain in performance and in
+robustnessby replacing its specialised garbage collector with MPS,
+augmented with SBCL-specific extensions.  If successful, this project
+would deeply integrate a complex library in a large system by
+characterising their respective requirements and judiciously inserting
+logic to make the two designs compatible.
+  
+** Deliverable
+1. Description of the interface between SBCL's runtime and its memory
+   management subsystem;
+2. Stand-alone program that interfaces with MPS and presents
+   challenges similar to that of SBCL (tagged pointers, several types
+   of weaknesses, some data layout described by normal heap objects,
+   ability to load a heap from disk, etc.);
+3. Port the stand-alone program's design to SBCL, for a single
+   platform;
+4. (optional) Determine which pools are better suited to Common Lisp,
+   and how to expose that choice to users.
+5. (optional) Port SBCL/MPS to several platforms.
+
+** Prerequisites
+Knowledge of C and understanding of operating systems internals.
+
+** Student learning
+The student will become familiar with the memory management subsystem
+used in a managed language that supports OS threads, and with the
+internals of a state of the art garbage collector.  They will then
+gain experience with the integration of independently-developed
+systems.  They will also interface directly with the operating systems
+as required for the development of a performance-oriented runtime
+system.
 
 * A hybrid copying/mark-and-sweep garbage collector
+SBCL's garbage collector is a mostly-copying generational garbage
+collector (gencgc).  Heap sizes have grown by multiple orders of
+magnitude since the era when gencgc was designed.  It now seems
+interesting to only use a copying garbage collector for
+newly-allocated data, and to reduce writes to older data by performing
+major collections with a mark-and-sweep pass.  Depending on the
+student's affinity, this may prove to be less work or more interesting
+than integrating a third-party design.  Completion of this project
+entails the development of a memory management subsystem, including
+difficult software development choices.  The result would be
+improvements in the responsiveness and throughput of a production
+language implementation.
+
+** Deliverables
+1. Description of the interface between SBCL's runtime and its memory
+   management subsystem;
+2. Implementation of mark-and-sweep in a distinct heap from the
+   current copying one, with eviction from the copying heap to the
+   mark-and-sweep heap;
+3. Integration of the mark-and-sweep heap with the copying heap and
+   its data structures;
+4. (optional) Adaptation of mark-and-sweep GC to efficiently load
+   images and to save less fragmented images;
+5. (optional) Improved performance on read-mostly data.
+
+** Prerequisites
+Knowledge of C and understanding of operating systems internals. 
+
+** Student learning
+The student will appreciate the challenges faced by the
+implementations of languages with managed memory.  They will
+understand the theory of classic garbage collection and memory
+management algorithms, and implement them.  They will also develop
+code that interacts directly with the operating system in order to
+manage resources efficiently.
 
 * Software write barriers
 
