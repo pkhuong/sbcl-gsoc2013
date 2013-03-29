@@ -862,6 +862,39 @@ to implement simple and efficient, but correct numerical algorithms.
 * MPFR for long floats
 * clang(++)-based FFI
 * Threading/locking debugging facilities
+SBCL exposes low-level shared memory concurrency and parallelism
+constructs: threads, locks, atomic operations, etc.  Such constructs
+are easily misused, and other projects and languages implementations
+have developed tools to detect and understand concurrency bugs (both
+in terms of correctness and of performance).  For example, Linux's
+locking correctness validator (lockdep) seems well suited to Common
+Lisp.  Other proven tools would no doubt benefit to SBCL and its
+users.  A successful project would identify existing (or create) tools
+that are promising to assist in the development of threaded
+applications with SBCL, and implement and document some of these
+tools.
+
+** Deliverables
+1. Survey of proven threading/locking debugging tools;
+2. Implementation and integration of at least one such tool in SBCL;
+3. Documentation for these extensions;
+4. (optional) Suggestion of alternative less error-prone constructs
+   for sb-concurrency or sb-thread.
+
+** Prerequisites
+Familiarity with the POSIX threads programming model.  An awareness of
+the execution process for multi-socket systems with multiple levels of
+cache would be useful, but not necessary.
+
+** Student learning
+The student would become intimately familiar with the sort of bugs
+commonly encountered in threaded system.  They would also study state
+of the art tools to detect such bugs, and replicate some of them for
+integration in a pre-existing environment.  They would also exercise
+their technical writing skills to document the tools and describe
+their correct use.  Finally, they would demonstrate the ability to
+propose elegant architectural solutions to complex issues.
+
 * Heap predicates and GC debugging
 * Core relocation
 * Better failure modes for heap overflow

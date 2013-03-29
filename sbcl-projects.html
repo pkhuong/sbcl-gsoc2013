@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 15:39:00 CET"/>
+<meta name="generated" content="2013-03-29 16:05:29 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -252,7 +252,13 @@ lang="en" xml:lang="en">
 <li><a href="#sec-35">35 Parametric recursive types </a></li>
 <li><a href="#sec-36">36 MPFR for long floats </a></li>
 <li><a href="#sec-37">37 clang(++)-based FFI </a></li>
-<li><a href="#sec-38">38 Threading/locking debugging facilities </a></li>
+<li><a href="#sec-38">38 Threading/locking debugging facilities </a>
+<ul>
+<li><a href="#sec-38.1">38.1 Deliverables </a></li>
+<li><a href="#sec-38.2">38.2 Prerequisites </a></li>
+<li><a href="#sec-38.3">38.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-39">39 Heap predicates and GC debugging </a></li>
 <li><a href="#sec-40">40 Core relocation </a></li>
 <li><a href="#sec-41">41 Better failure modes for heap overflow </a></li>
@@ -2133,6 +2139,70 @@ to implement simple and efficient, but correct numerical algorithms.
 <h2 id="sec-38"><span class="section-number-2">38</span> Threading/locking debugging facilities </h2>
 <div class="outline-text-2" id="text-38">
 
+<p>SBCL exposes low-level shared memory concurrency and parallelism
+constructs: threads, locks, atomic operations, etc.  Such constructs
+are easily misused, and other projects and languages implementations
+have developed tools to detect and understand concurrency bugs (both
+in terms of correctness and of performance).  For example, Linux's
+locking correctness validator (lockdep) seems well suited to Common
+Lisp.  Other proven tools would no doubt benefit to SBCL and its
+users.  A successful project would identify existing (or create) tools
+that are promising to assist in the development of threaded
+applications with SBCL, and implement and document some of these
+tools.
+</p>
+
+</div>
+
+<div id="outline-container-38.1" class="outline-3">
+<h3 id="sec-38.1"><span class="section-number-3">38.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-38.1">
+
+<ol>
+<li>
+Survey of proven threading/locking debugging tools;
+</li>
+<li>
+Implementation and integration of at least one such tool in SBCL;
+</li>
+<li>
+Documentation for these extensions;
+</li>
+<li>
+(optional) Suggestion of alternative less error-prone constructs
+for sb-concurrency or sb-thread.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-38.2" class="outline-3">
+<h3 id="sec-38.2"><span class="section-number-3">38.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-38.2">
+
+<p>Familiarity with the POSIX threads programming model.  An awareness of
+the execution process for multi-socket systems with multiple levels of
+cache would be useful, but not necessary.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-38.3" class="outline-3">
+<h3 id="sec-38.3"><span class="section-number-3">38.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-38.3">
+
+<p>The student would become intimately familiar with the sort of bugs
+commonly encountered in threaded system.  They would also study state
+of the art tools to detect such bugs, and replicate some of them for
+integration in a pre-existing environment.  They would also exercise
+their technical writing skills to document the tools and describe
+their correct use.  Finally, they would demonstrate the ability to
+propose elegant architectural solutions to complex issues.
+</p>
+</div>
 </div>
 
 </div>
@@ -2209,7 +2279,7 @@ to implement simple and efficient, but correct numerical algorithms.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 15:39:00 CET</p>
+<p class="date"> Date: 2013-03-29 16:05:29 CET</p>
 </div>
 </div>
 </body>
