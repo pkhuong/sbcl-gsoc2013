@@ -687,16 +687,58 @@ assembly language is helpful but optional.
 ** Student learning
 The student would become comfortable with data representation issues
 at a low level, develop and execute tests for a fundamental part of
-the system, and guide technical decisions with empiric measures with
-benchmarks that reflect reality.
+the system, and guide technical decisions with empiric measures from
+benchmarks that reflect reality.  Moreover, this would be done within
+the constraints specified by a standard.
 
 * Precise stack scanning
+The garbage collector used by SBCL on x86, x86-64 and threaded PPC is
+conservative: any aligned word on the control stack or in a register
+that might be a tagged pointer is treated as a potential root.
+Consequently, some definite roots are treated as potential ones,
+preventing some heap compaction, and spurious potential roots cause
+spurious memory leaks.  Being able to partition some stack values as
+definite references, non-references, and potential references would
+greatly alleviate this issue.  
 
 * Coarser type derivation system
+Common Lisp's type system is extremely expressive, and it is expected
+that complicated types will lead to slow type tests and comparisons.
+SBCL exploits this expressiveness to implement fine-grained
+flow-sensitive analyses.  In many cases, particularly when execution
+speed is a secondary concern, tracking types less precisely would
+improve compilation speed significantly, without overly affecting the
+object code.  This project consists of first identifying points in
+SBCL's analysis passes where types could be profitably widened, of
+designing a coarse type lattice that accelerates compilation, and of
+implementing that coarse lattice in SBCL.
+
+** Deliverables
+1. Gather example code that exercises SBCL's type-based analyses;
+2. Determine what operations exhibit complexity blowups in these
+   examples;
+3. Define a simple type widening operator, and insert it in key
+   places;
+4. Experiment with various widening strategies and alternative type
+   lattices to improve compilation speed while preserving correctness
+   and reasonable execution efficiency.
+
+** Prerequisites
+Proficiency in discrete mathematics, particularly set theory.  The
+student is expected to become familiar with data flow analyses in the
+course of the project.
+
+** Student learning
+The student will acquire experience at profiling a complex symbolic
+manipulation system. They will then apply their results to improve the
+practical performance of the system, while preserving it mathematical
+correctness.  They will also gain a stronger mastery of static (data
+flow) analyses for a practical impure language.
 
 * CLOS sealing
 
 * Unboxed calling convention
+
 
 * Improving SBCL's memory allocator
 

@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-29 10:53:29 CET"/>
+<meta name="generated" content="2013-03-29 14:04:29 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -215,7 +215,13 @@ lang="en" xml:lang="en">
 </ul>
 </li>
 <li><a href="#sec-24">24 Precise stack scanning </a></li>
-<li><a href="#sec-25">25 Coarser type derivation system </a></li>
+<li><a href="#sec-25">25 Coarser type derivation system </a>
+<ul>
+<li><a href="#sec-25.1">25.1 Deliverables </a></li>
+<li><a href="#sec-25.2">25.2 Prerequisites </a></li>
+<li><a href="#sec-25.3">25.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-26">26 CLOS sealing </a></li>
 <li><a href="#sec-27">27 Unboxed calling convention </a></li>
 <li><a href="#sec-28">28 Improving SBCL's memory allocator </a></li>
@@ -1703,8 +1709,9 @@ assembly language is helpful but optional.
 
 <p>The student would become comfortable with data representation issues
 at a low level, develop and execute tests for a fundamental part of
-the system, and guide technical decisions with empiric measures with
-benchmarks that reflect reality.
+the system, and guide technical decisions with empiric measures from
+benchmarks that reflect reality.  Moreover, this would be done within
+the constraints specified by a standard.
 </p>
 </div>
 </div>
@@ -1715,7 +1722,15 @@ benchmarks that reflect reality.
 <h2 id="sec-24"><span class="section-number-2">24</span> Precise stack scanning </h2>
 <div class="outline-text-2" id="text-24">
 
-
+<p>The garbage collector used by SBCL on x86, x86-64 and threaded PPC is
+conservative: any aligned word on the control stack or in a register
+that might be a tagged pointer is treated as a potential root.
+Consequently, some definite roots are treated as potential ones,
+preventing some heap compaction, and spurious potential roots cause
+spurious memory leaks.  Being able to partition some stack values as
+definite references, non-references, and potential references would
+greatly alleviate this issue.  
+</p>
 </div>
 
 </div>
@@ -1724,7 +1739,70 @@ benchmarks that reflect reality.
 <h2 id="sec-25"><span class="section-number-2">25</span> Coarser type derivation system </h2>
 <div class="outline-text-2" id="text-25">
 
+<p>Common Lisp's type system is extremely expressive, and it is expected
+that complicated types will lead to slow type tests and comparisons.
+SBCL exploits this expressiveness to implement fine-grained
+flow-sensitive analyses.  In many cases, particularly when execution
+speed is a secondary concern, tracking types less precisely would
+improve compilation speed significantly, without overly affecting the
+object code.  This project consists of first identifying points in
+SBCL's analysis passes where types could be profitably widened, of
+designing a coarse type lattice that accelerates compilation, and of
+implementing that coarse lattice in SBCL.
+</p>
 
+</div>
+
+<div id="outline-container-25.1" class="outline-3">
+<h3 id="sec-25.1"><span class="section-number-3">25.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-25.1">
+
+<ol>
+<li>
+Gather example code that exercises SBCL's type-based analyses;
+</li>
+<li>
+Determine what operations exhibit complexity blowups in these
+examples;
+</li>
+<li>
+Define a simple type widening operator, and insert it in key
+places;
+</li>
+<li>
+Experiment with various widening strategies and alternative type
+lattices to improve compilation speed while preserving correctness
+and reasonable execution efficiency.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-25.2" class="outline-3">
+<h3 id="sec-25.2"><span class="section-number-3">25.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-25.2">
+
+<p>Proficiency in discrete mathematics, particularly set theory.  The
+student is expected to become familiar with data flow analyses in the
+course of the project.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-25.3" class="outline-3">
+<h3 id="sec-25.3"><span class="section-number-3">25.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-25.3">
+
+<p>The student will acquire experience at profiling a complex symbolic
+manipulation system. They will then apply their results to improve the
+practical performance of the system, while preserving it mathematical
+correctness.  They will also gain a stronger mastery of static (data
+flow) analyses for a practical impure language.
+</p>
+</div>
 </div>
 
 </div>
@@ -1741,6 +1819,7 @@ benchmarks that reflect reality.
 <div id="outline-container-27" class="outline-2">
 <h2 id="sec-27"><span class="section-number-2">27</span> Unboxed calling convention </h2>
 <div class="outline-text-2" id="text-27">
+
 
 
 </div>
@@ -1915,7 +1994,7 @@ objects, colour them so they don't alias.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-29 10:53:29 CET</p>
+<p class="date"> Date: 2013-03-29 14:04:29 CET</p>
 </div>
 </div>
 </body>
