@@ -343,25 +343,165 @@ Knowledge of x86[-64] assembly language. Familiarity with advanced
 compilation techniques is an advantage.
 
 ** Student learning
-The student would gain a partial comprehension of the complete
-pipeline in a production compiler, from the front-end, to dataflow
-analyses, to the generation of machine code.  They would also have to
-work within an ISO standard to expose a new feature to users.
-Finally, they would improve their understanding of the low-level
-performance of modern architectures, particularly at the level of
-branch prediction, in order to transparently improve the runtime
-efficiency of flow control constructs.
+The student would gain an overview of the complete pipeline in a
+production compiler, from the front-end, to dataflow analyses, to the
+generation of machine code.  They would also have to work within an
+ISO standard to expose a new feature to users.  Finally, they would
+improve their understanding of the low-level performance of modern
+architectures, particularly at the level of branch prediction, in
+order to transparently improve the runtime efficiency of flow control
+constructs.
 
 * Peephole optimisation
+Most of the cleverness in SBCL is in the front-end.  Once Common Lisp
+has been lowered to an explicitly-typed C-level intermediate
+representation, very few analyses and optimisations are performed,
+when compared to other compilers.  As a result, clearly suboptimal
+code sequences are generated, particularly at the boundary between two
+operations.  A peephole optimisation pass would detect such sequences
+and eliminate them or replace them with more efficient code.  This
+could be achieved by considering sequences of instructions or of
+virtual operations (instruction templates), or even by reconstructing
+a tree from virtual operations.  The project would implement such a
+peephole pass, offer a modular way to define new patterns, and add a
+few such patterns for commonly-used architectures.
 
+** Deliverables
+1. Determine how to inject ad hoc rewrites during the emission of
+   machine code;
+2. Implement a simple, specialised, optimisation using that mechanism;
+3. Develop a pattern-definition language appropriate for the chosen
+   rewriting mechanism;
+4. Implement some rewrites using that pattern-definition language, and
+   show improvements in some degenerate cases.
+
+** Prerequisites
+Familiarity with assembly language in at least one platform supported
+by SBCL.
+
+** Student learning
+The student will have evaluated how to best extend a system in a
+direction that was not considered during its initial design.  They
+will also review various approaches to improve code generation at a
+low level, and create a new domain-specific language that will be used
+by others.  They will finally develop code to detect and improve code
+at the assembly level.
 
 * Precompilation support for CLOS
 
 * Exploiting vector intrinsics in block sequence operations
+SBCL is finally gaining support for x86-64 short vector SIMD
+instructions (SSE), at the source level.  Many array and sequence
+processing functions would benefit from manual vectorisation.  If
+successful, this project would require the identification of manual
+vectorisation targets, the development of efficient routines, and the
+addition of code and of transformations in the compiler to exploit
+these routines transparently.
 
-* Modernising a graph-coloring register allocator
+** Deliverables
+1. A list of promising vectorisable operations;
+2. The implementation of a few special cases for such vectorisable
+   operations;
+3. A generic method to dispatch to vectorised routines depending on
+   the CPU's capabilities;
+4. (optional) Convenience macros and functions to implement complete
+   vectorised operations, including misaligned data;
+5. (optional) SIMD-within-a-register (SWAR) implementations for some
+   vectoriable routines.
+
+** Prerequisites
+Understanding of the bit-level representation of data in computers.
+Familiarity with SSE instructions is expected to improve with time.
+
+** Student learning
+The student will learn to detect opportunities for vectorisation in
+pre-existing code.  They will also improve their ability to adapt
+algorithms to vector processing, and develop methods to determine when
+and how operations should be vectorised.
+
+* Modernising a graph-colouring register allocator
+Variables are mapped to registers or stack locations in SBCL with a
+straightforward graph-colouring allocator.  Graph colouring is a
+well-known combinatorial optimisation problem, and, although it is
+NP-Hard, some heuristic methods are known to perform very well in
+practice.  Exploiting such methods in the register allocator would
+enable code to avoid spills when register pressure is high; this is a
+particularly pressing issue on x86.  Moreover, while SBCL's register
+allocator allocates registers (or stack slots) to variables,
+contemporary allocator obtain much better results by mapping registers
+to values, thus allowing the value associated with a single variable
+to be stored in different locations at distinct points in the code.
+This can be achieved to a lesser extent by more closely tracking
+values within a single basic block and by splitting live ranges in
+multiple sections, and inserting fixup code.  Through any of these
+means, the project would improve the performance of code that
+exhibits high register pressure.
+
+** Deliverables
+1. Accumulate a few functions that exhibit register allocation issues;
+2. Improve the graph-colouring heuristic by adapting well-known
+   methods;
+3. Allocate registers more finely within a single basic block;
+4. (optional) Implement a live-range splitting pass;
+5. (optional) Exploit register-register exchange instructions to
+   enable SSA-style register allocation.
+
+** Prerequisites
+Basic familiarity with assembly language. Some knowledge of discrete
+mathematics and of graph theory.
+
+** Student learning
+The student will apply sophisticated heuristics to solve an NP-Hard
+problem.  They will also learn to map abstract discrete optimisation
+concepts to concrete low-level concepts such as architectural
+registers and assembly instructions, and develop specialised methods
+that straddle the two views to exploit domain-specific knowledge.
 
 * Selecting concrete representations cleverly
+An essential trick to SBCL's performance is its ability to represent
+the same data in multiple manners, as boxed values, or as
+machine-native values, e.g. signed or unsigned words, or floating
+point values in registers.  However, not all operations have the same
+requirements: some, like arbitrary calls, are better served with boxed
+values, while others, like floating-point arithmetic, are more
+efficient on natively-represented values.  SBCL currently assigns a
+single concrete representation for each variable.  This selection
+algorithm can be revisited and improved, but the constraints under
+which it operates could be relaxed as well: nothing prevents
+a variable's values to be represented in different manners at distinct
+program points, as long as conversion code is inserted at key places.
+In particular, this additional leeway imposes a very low overhead if
+it is only exploited within each basic block.  This project requires a
+lot of creativity to understand an exotic combinatorial optimisation
+problem and determine how best to tackle it and adapt existing
+methods; if successful, it would result in the development of a novel
+algorithm for a problem essential to the performance of
+dynamically-typed languages, and its application in a pre-existing
+compiler.
+
+** Deliverables
+1. Describe the objective and constraints in the representation
+   selection problem;
+2. Reduce the representation selection problem to better understood
+   optimisation problems with efficient heuristics;
+3. Improve the currently-existing representation selection heuristic;
+4. (optional) Implement value-based representation selection within
+   basic blocks;
+5. (optional) Implement SSA-style representation selection, with
+   conversion code at control flow fork/join points.
+
+** Prerequisites
+Basic familiarity with assembly language. Some knowledge of discrete
+mathematics and of graph theory.
+
+** Student learning
+The student will learn to describe complicated, industrial,
+combinatorial optimisation problem formally, and attempt to reduce it
+to classic optimisation problems.  They will then have an opportunity
+to exploit this theoretical basis to improve on an existing heuristic,
+in practice.  Finally, they will be lead to revisit a formal model to
+better represent the actual problem, while ensuring the existence of
+efficient solving methods.
 
 * Allocation pools
 

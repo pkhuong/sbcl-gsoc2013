@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-03-28 23:59:28 CET"/>
+<meta name="generated" content="2013-03-29 01:37:14 CET"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -148,11 +148,35 @@ lang="en" xml:lang="en">
 <li><a href="#sec-11.3">11.3 Student learning </a></li>
 </ul>
 </li>
-<li><a href="#sec-12">12 Peephole optimisation </a></li>
+<li><a href="#sec-12">12 Peephole optimisation </a>
+<ul>
+<li><a href="#sec-12.1">12.1 Deliverables </a></li>
+<li><a href="#sec-12.2">12.2 Prerequisites </a></li>
+<li><a href="#sec-12.3">12.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-13">13 Precompilation support for CLOS </a></li>
-<li><a href="#sec-14">14 Exploiting vector intrinsics in block sequence operations </a></li>
-<li><a href="#sec-15">15 Modernising a graph-coloring register allocator </a></li>
-<li><a href="#sec-16">16 Selecting concrete representations cleverly </a></li>
+<li><a href="#sec-14">14 Exploiting vector intrinsics in block sequence operations </a>
+<ul>
+<li><a href="#sec-14.1">14.1 Deliverables </a></li>
+<li><a href="#sec-14.2">14.2 Prerequisites </a></li>
+<li><a href="#sec-14.3">14.3 Student learning </a></li>
+</ul>
+</li>
+<li><a href="#sec-15">15 Modernising a graph-colouring register allocator </a>
+<ul>
+<li><a href="#sec-15.1">15.1 Deliverables </a></li>
+<li><a href="#sec-15.2">15.2 Prerequisites </a></li>
+<li><a href="#sec-15.3">15.3 Student learning </a></li>
+</ul>
+</li>
+<li><a href="#sec-16">16 Selecting concrete representations cleverly </a>
+<ul>
+<li><a href="#sec-16.1">16.1 Deliverables </a></li>
+<li><a href="#sec-16.2">16.2 Prerequisites </a></li>
+<li><a href="#sec-16.3">16.3 Student learning </a></li>
+</ul>
+</li>
 <li><a href="#sec-17">17 Allocation pools </a></li>
 <li><a href="#sec-18">18 Replacing the garbage collector with MPS </a></li>
 <li><a href="#sec-19">19 A hybrid copying/mark-and-sweep garbage collector </a></li>
@@ -928,14 +952,14 @@ compilation techniques is an advantage.
 <h3 id="sec-11.3"><span class="section-number-3">11.3</span> Student learning </h3>
 <div class="outline-text-3" id="text-11.3">
 
-<p>The student would gain a partial comprehension of the complete
-pipeline in a production compiler, from the front-end, to dataflow
-analyses, to the generation of machine code.  They would also have to
-work within an ISO standard to expose a new feature to users.
-Finally, they would improve their understanding of the low-level
-performance of modern architectures, particularly at the level of
-branch prediction, in order to transparently improve the runtime
-efficiency of flow control constructs.
+<p>The student would gain an overview of the complete pipeline in a
+production compiler, from the front-end, to dataflow analyses, to the
+generation of machine code.  They would also have to work within an
+ISO standard to expose a new feature to users.  Finally, they would
+improve their understanding of the low-level performance of modern
+architectures, particularly at the level of branch prediction, in
+order to transparently improve the runtime efficiency of flow control
+constructs.
 </p>
 </div>
 </div>
@@ -946,8 +970,71 @@ efficiency of flow control constructs.
 <h2 id="sec-12"><span class="section-number-2">12</span> Peephole optimisation </h2>
 <div class="outline-text-2" id="text-12">
 
+<p>Most of the cleverness in SBCL is in the front-end.  Once Common Lisp
+has been lowered to an explicitly-typed C-level intermediate
+representation, very few analyses and optimisations are performed,
+when compared to other compilers.  As a result, clearly suboptimal
+code sequences are generated, particularly at the boundary between two
+operations.  A peephole optimisation pass would detect such sequences
+and eliminate them or replace them with more efficient code.  This
+could be achieved by considering sequences of instructions or of
+virtual operations (instruction templates), or even by reconstructing
+a tree from virtual operations.  The project would implement such a
+peephole pass, offer a modular way to define new patterns, and add a
+few such patterns for commonly-used architectures.
+</p>
 
+</div>
 
+<div id="outline-container-12.1" class="outline-3">
+<h3 id="sec-12.1"><span class="section-number-3">12.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-12.1">
+
+<ol>
+<li>
+Determine how to inject ad hoc rewrites during the emission of
+machine code;
+</li>
+<li>
+Implement a simple, specialised, optimisation using that mechanism;
+</li>
+<li>
+Develop a pattern-definition language appropriate for the chosen
+rewriting mechanism;
+</li>
+<li>
+Implement some rewrites using that pattern-definition language, and
+show improvements in some degenerate cases.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-12.2" class="outline-3">
+<h3 id="sec-12.2"><span class="section-number-3">12.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-12.2">
+
+<p>Familiarity with assembly language in at least one platform supported
+by SBCL.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-12.3" class="outline-3">
+<h3 id="sec-12.3"><span class="section-number-3">12.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-12.3">
+
+<p>The student will have evaluated how to best extend a system in a
+direction that was not considered during its initial design.  They
+will also review various approaches to improve code generation at a
+low level, and create a new domain-specific language that will be used
+by others.  They will finally develop code to detect and improve code
+at the assembly level.
+</p>
+</div>
 </div>
 
 </div>
@@ -965,16 +1052,146 @@ efficiency of flow control constructs.
 <h2 id="sec-14"><span class="section-number-2">14</span> Exploiting vector intrinsics in block sequence operations </h2>
 <div class="outline-text-2" id="text-14">
 
+<p>SBCL is finally gaining support for x86-64 short vector SIMD
+instructions (SSE), at the source level.  Many array and sequence
+processing functions would benefit from manual vectorisation.  If
+successful, this project would require the identification of manual
+vectorisation targets, the development of efficient routines, and the
+addition of code and of transformations in the compiler to exploit
+these routines transparently.
+</p>
 
+</div>
+
+<div id="outline-container-14.1" class="outline-3">
+<h3 id="sec-14.1"><span class="section-number-3">14.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-14.1">
+
+<ol>
+<li>
+A list of promising vectorisable operations;
+</li>
+<li>
+The implementation of a few special cases for such vectorisable
+operations;
+</li>
+<li>
+A generic method to dispatch to vectorised routines depending on
+the CPU's capabilities;
+</li>
+<li>
+(optional) Convenience macros and functions to implement complete
+vectorised operations, including misaligned data;
+</li>
+<li>
+(optional) SIMD-within-a-register (SWAR) implementations for some
+vectoriable routines.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-14.2" class="outline-3">
+<h3 id="sec-14.2"><span class="section-number-3">14.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-14.2">
+
+<p>Understanding of the bit-level representation of data in computers.
+Familiarity with SSE instructions is expected to improve with time.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-14.3" class="outline-3">
+<h3 id="sec-14.3"><span class="section-number-3">14.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-14.3">
+
+<p>The student will learn to detect opportunities for vectorisation in
+pre-existing code.  They will also improve their ability to adapt
+algorithms to vector processing, and develop methods to determine when
+and how operations should be vectorised.
+</p>
+</div>
 </div>
 
 </div>
 
 <div id="outline-container-15" class="outline-2">
-<h2 id="sec-15"><span class="section-number-2">15</span> Modernising a graph-coloring register allocator </h2>
+<h2 id="sec-15"><span class="section-number-2">15</span> Modernising a graph-colouring register allocator </h2>
 <div class="outline-text-2" id="text-15">
 
+<p>Variables are mapped to registers or stack locations in SBCL with a
+straightforward graph-colouring allocator.  Graph colouring is a
+well-known combinatorial optimisation problem, and, although it is
+NP-Hard, some heuristic methods are known to perform very well in
+practice.  Exploiting such methods in the register allocator would
+enable code to avoid spills when register pressure is high; this is a
+particularly pressing issue on x86.  Moreover, while SBCL's register
+allocator allocates registers (or stack slots) to variables,
+contemporary allocator obtain much better results by mapping registers
+to values, thus allowing the value associated with a single variable
+to be stored in different locations at distinct points in the code.
+This can be achieved to a lesser extent by more closely tracking
+values within a single basic block and by splitting live ranges in
+multiple sections, and inserting fixup code.  Through any of these
+means, the project would improve the performance of code that
+exhibits high register pressure.
+</p>
 
+</div>
+
+<div id="outline-container-15.1" class="outline-3">
+<h3 id="sec-15.1"><span class="section-number-3">15.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-15.1">
+
+<ol>
+<li>
+Accumulate a few functions that exhibit register allocation issues;
+</li>
+<li>
+Improve the graph-colouring heuristic by adapting well-known
+methods;
+</li>
+<li>
+Allocate registers more finely within a single basic block;
+</li>
+<li>
+(optional) Implement a live-range splitting pass;
+</li>
+<li>
+(optional) Exploit register-register exchange instructions to
+enable SSA-style register allocation.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-15.2" class="outline-3">
+<h3 id="sec-15.2"><span class="section-number-3">15.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-15.2">
+
+<p>Basic familiarity with assembly language. Some knowledge of discrete
+mathematics and of graph theory.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-15.3" class="outline-3">
+<h3 id="sec-15.3"><span class="section-number-3">15.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-15.3">
+
+<p>The student will apply sophisticated heuristics to solve an NP-Hard
+problem.  They will also learn to map abstract discrete optimisation
+concepts to concrete low-level concepts such as architectural
+registers and assembly instructions, and develop specialised methods
+that straddle the two views to exploit domain-specific knowledge.
+</p>
+</div>
 </div>
 
 </div>
@@ -983,7 +1200,84 @@ efficiency of flow control constructs.
 <h2 id="sec-16"><span class="section-number-2">16</span> Selecting concrete representations cleverly </h2>
 <div class="outline-text-2" id="text-16">
 
+<p>An essential trick to SBCL's performance is its ability to represent
+the same data in multiple manners, as boxed values, or as
+machine-native values, e.g. signed or unsigned words, or floating
+point values in registers.  However, not all operations have the same
+requirements: some, like arbitrary calls, are better served with boxed
+values, while others, like floating-point arithmetic, are more
+efficient on natively-represented values.  SBCL currently assigns a
+single concrete representation for each variable.  This selection
+algorithm can be revisited and improved, but the constraints under
+which it operates could be relaxed as well: nothing prevents
+a variable's values to be represented in different manners at distinct
+program points, as long as conversion code is inserted at key places.
+In particular, this additional leeway imposes a very low overhead if
+it is only exploited within each basic block.  This project requires a
+lot of creativity to understand an exotic combinatorial optimisation
+problem and determine how best to tackle it and adapt existing
+methods; if successful, it would result in the development of a novel
+algorithm for a problem essential to the performance of
+dynamically-typed languages, and its application in a pre-existing
+compiler.
+</p>
 
+</div>
+
+<div id="outline-container-16.1" class="outline-3">
+<h3 id="sec-16.1"><span class="section-number-3">16.1</span> Deliverables </h3>
+<div class="outline-text-3" id="text-16.1">
+
+<ol>
+<li>
+Describe the objective and constraints in the representation
+selection problem;
+</li>
+<li>
+Reduce the representation selection problem to better understood
+optimisation problems with efficient heuristics;
+</li>
+<li>
+Improve the currently-existing representation selection heuristic;
+</li>
+<li>
+(optional) Implement value-based representation selection within
+basic blocks;
+</li>
+<li>
+(optional) Implement SSA-style representation selection, with
+conversion code at control flow fork/join points.
+
+</li>
+</ol>
+</div>
+
+</div>
+
+<div id="outline-container-16.2" class="outline-3">
+<h3 id="sec-16.2"><span class="section-number-3">16.2</span> Prerequisites </h3>
+<div class="outline-text-3" id="text-16.2">
+
+<p>Basic familiarity with assembly language. Some knowledge of discrete
+mathematics and of graph theory.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-16.3" class="outline-3">
+<h3 id="sec-16.3"><span class="section-number-3">16.3</span> Student learning </h3>
+<div class="outline-text-3" id="text-16.3">
+
+<p>The student will learn to describe complicated, industrial,
+combinatorial optimisation problem formally, and attempt to reduce it
+to classic optimisation problems.  They will then have an opportunity
+to exploit this theoretical basis to improve on an existing heuristic,
+in practice.  Finally, they will be lead to revisit a formal model to
+better represent the actual problem, while ensuring the existence of
+efficient solving methods.
+</p>
+</div>
 </div>
 
 </div>
@@ -1255,7 +1549,7 @@ objects, colour them so they don't alias.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-03-28 23:59:28 CET</p>
+<p class="date"> Date: 2013-03-29 01:37:14 CET</p>
 </div>
 </div>
 </body>
