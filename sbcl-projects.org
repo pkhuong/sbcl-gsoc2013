@@ -1,7 +1,11 @@
 #+OPTIONS: author:nil email:nil creator:nil
 #+TITLE: Project Ideas
 
-* Unicode Integration
+* Improvements to the library
+This section contains projects for which the work lies mainly in
+improving the library of functions that are offered to users of SBCL.
+
+** Unicode Integration
 SBCL has a simple-minded implementation of Unicode support: each
 Unicode codepoint is a single Lisp character, and strings are
 sequences of codepoints. This implementation meets the principle of
@@ -14,25 +18,25 @@ in the language runtime: for example, by using the normalization
 algorithm in symbol equality, allowing easy use of collation keys for
 sorting, or syllable breaking in the pretty-printer or formatter.
 
-** Deliverables
+*** Deliverables
 1. CL implementations of algorithms specified in the Unicode standards;
 2. Integration of these algorithms into the the SBCL language runtime;
 3. Integration of test cases into the SBCL build sequence;
 4. Exploratory work in /using/ these algorithms in suitable places in
    the Lisp language runtime.
 
-** Prerequisites
+*** Prerequisites
 There are no hard prerequisites for this project; an interest in
 internationalization issues would be helpful, as would prior
 experience with working with Unicode.
 
-** Student learning
+*** Student learning
 A student successfully executing this project would learn about: data
 structures for efficient information storage; test methodologies; and
 working within the strictures of standardized algorithms and
 languages.
 
-* Exploiting GMP for bignum and rational arithmetic
+** Exploiting GMP for bignum and rational arithmetic
 SBCL has a reasonably simple but decent implementation of arbitrary
 precision integers and rationals; its design is also informed by the
 Common Lisp specification, in particular support for bitwise operation
@@ -47,7 +51,7 @@ representations, and the determination of cross-over points between
 SBCL's and GMP's routines.  This work would probably be appreciated by
 symbolic computing applications (e.g. maxima).
 
-** Deliverables
+*** Deliverables
 1. (partial) Foreign function interface definitions for GMP;
 2. Development of routines to convert between two's complement and
    sign-magnitude representation;
@@ -59,11 +63,11 @@ symbolic computing applications (e.g. maxima).
 6. Improvement of SBCL's algorithms for small or medium bignums and
    rationals (optional).
 
-** Prerequisites
+*** Prerequisites
 Familiarity with Common Lisp or C. An interest in number theory would
 be useful, and may provide additional motivation.
 
-** Student learning
+*** Student learning
 The student would learn to characterise the use of a small part of a
 system (bignum and rational arithmetic) by various applications, and
 develop microbenchmarks accordingly, in order to make non-obvious
@@ -71,7 +75,7 @@ technical decisions.  They would also exercise test methodologies, and
 potentially implement algorithms described by specialised scientific
 literature.
 
-* Flexible (pseudo) random number generation
+** Flexible (pseudo) random number generation
 SBCL's support for random number generation is limited to an
 implementation of the Mersenne Twister (MT19937) PRNG.  This is a good
 general-purpose PRNG, but some applications require different
@@ -83,7 +87,7 @@ in such a way as to allow library authors and end-users to
 programmatically negotiate the choice of PRNG algorithm among multiple
 implemented choices.
 
-** Deliverables
+*** Deliverables
 1. Implementations of several classes of random number generators,
    including one statistically-robust PRNG, geared toward demanding
    mathematical applications, and one believed suitable for
@@ -97,21 +101,21 @@ implemented choices.
    generators to be selected dynamically given algorithmic
    requirements.
 
-** Prerequisites
+*** Prerequisites
 No strict prerequisites, although some understanding of the possible
 space of pseudorandom number generation, including tradeoffs regarding
 speed, predictability (forwards and backwards) and dimensional
 distribution.  Familiarity with CL and its approach to random number
 generation can be acquired while doing the project.
 
-** Student learning
+*** Student learning
 The student will learn the breadth of possible implementations of
 random number generators, and their limitations, all while working in
 the context of an established language runtime.  A successful project
 is also likely to cover statistical tests of randomness and efficient
 object-oriented design.
 
-* Vectorised sequence operations
+** Vectorised sequence operations
 SBCL is finally gaining support for x86-64 short vector SIMD
 instructions (SSE), at the source level.  Many array and sequence
 processing functions would benefit from manual vectorisation.  If
@@ -120,7 +124,7 @@ vectorisation targets, the development of efficient routines, and the
 addition of code and of transformations in the compiler to exploit
 these routines transparently.
 
-** Deliverables
+*** Deliverables
 1. A list of promising vectorisable operations;
 2. The implementation of a few special cases for such vectorisable
    operations;
@@ -131,17 +135,17 @@ these routines transparently.
 5. (optional) SIMD-within-a-register (SWAR) implementations for some
    vectoriable routines.
 
-** Prerequisites
+*** Prerequisites
 Understanding of the bit-level representation of data in computers.
 Familiarity with SSE instructions is expected to improve with time.
 
-** Student learning
+*** Student learning
 The student will learn to detect opportunities for vectorisation in
-pre-existing code.  They will also improve their ability to adapt
+pre-existing code.  They will also hone their ability to adapt
 algorithms to vector processing, and develop methods to determine when
 and how operations should be vectorised.
 
-* More efficient hash functions and hash tables
+** More efficient hash functions and hash tables
 As mandated by the standard, SBCL offers hash tables and exposes
 pre-defined hash functions.  Interactions with other parts of the
 system make it challenging to improve general-purpose hash tables.
@@ -151,28 +155,126 @@ this project would lead to the implementation of better hash
 functions, standard or as extensions, and to the development of
 specialised associative dictionaries.
 
-** Deliverables
+*** Deliverables
 1. Adapt and implement known families of hash functions for integer
    and string data;
 2. Improve the distribution of standard hash functions;
 3. Implement routines to test the quality and correctness of hash
    functions;
-4. Provide parameterised hash functions that are resistant to
+4. (optional) Provide parameterised hash functions that are resistant to
    collision attacks, as extensions to the standard;
-5. Implement specialised associative dictionaries.
+5. (optional) Implement specialised associative dictionaries.
 
-** Prerequisite
+*** Prerequisite
 Familiarity with probabilities and with basic data structures.  An
 interest in computer microarchitecture will be useful.
 
-** Student learning
+*** Student learning
 The student would exploit or implement state of the art hash
 functions, compare their strengths and weaknesses, and integrate them
 in a complete system.  They would also apply their understanding of
 the low-level representation of data to develop specialised data
 structures that remain compatible with a specification.
 
-* Efficient integer truncate/floor/ceiling by constants
+** Efficient interpretation
+SBCL inherited from CMUCL a complicated compilation process geared
+toward the generation of efficient machine code.  A simple interpreter
+enables SBCL to avoid this overhead in contexts when execution speed
+is not an issue at all.  Many programs would benefit from more
+efficient interpretation, an intermediate choice between the current
+extremes of a full type-propagating compiler and an s-expression
+interpreter.  Completion of this project entails the development of a
+standard-compliant minimal compiler.
+
+*** Deliverables
+1. Disentangle or replicate the front-end to perform minimal
+   compilation;
+2. Define an intermediate representation appropriate for the
+   efficient interpretation of Common Lisp code;
+3. Develop a compiler from minimally-compiled source to the
+   intermediate representation.
+
+*** Prerequisite
+Familiarity with Lisp macros and with first-class functions.
+
+*** Student learning
+The student would improve their ability to read, understand, and
+implement an ANSI standard.  They would then explore the performance
+of a few standard or novel interpretation schemes on contemporary
+computers.  Finally, they would develop a small compiler for a
+practical programming language.
+
+** Improving the thread-safety of the object system
+Developers continually attempt to reduce SBCL's reliance on a single
+"world" lock.  This effort has lead to the elimination of some
+re-entrancy issues, and to the introduction of a few concurrency bugs,
+many of them related to the Common Lisp Object System (CLOS).  Some
+bugs are easily triggered, other depend on rare race conditions.  Some
+could be fixed with additional lockings, others through the use of
+mostly non-blocking synchronisation techniques, and others still by
+outright modifying the behaviour of the object system.  This project
+requires the student to organise known or potential concurrency bugs
+in PCL, SBCL's implementation of CLOS, and attempt to fix them.
+
+*** Deliverables
+1. Collect, organise, and diagnose concurrency bugs in PCL;
+2. Fix some of these bugs;
+3. Develop a methodology to trigger hard-to-detect concurrency bugs in
+   PCL;
+4. Suggest generally-applicable techniques to eliminate such bugs from
+   PCL and the runtime system (optional).
+
+*** Prerequisites
+Basic understanding of shared-memory concurrency.  A conservative
+understanding of specific memory models will be developed in parallel
+with the work.
+
+*** Student learning
+The student will encounter concurrency bugs in a complex stateful
+system that exploits both lock-based concurrency control and lock-free
+operations.  They will develop an understanding for the issues
+encountered in such systems, and learn how to detect and then solve
+them.
+
+** Threading/locking debugging facilities
+SBCL exposes low-level shared memory concurrency and parallelism
+constructs: threads, locks, atomic operations, etc.  Such constructs
+are easily misused, and other projects and languages implementations
+have developed tools to detect and understand concurrency bugs (both
+in terms of correctness and of performance).  For example, Linux's
+locking correctness validator (lockdep) seems well suited to Common
+Lisp.  Other proven tools would no doubt benefit to SBCL and its
+users.  A successful project would identify existing (or create) tools
+that are promising to assist in the development of threaded
+applications with SBCL, and implement and document some of these
+tools.
+
+*** Deliverables
+1. Survey of proven threading/locking debugging tools;
+2. Implementation and integration of at least one such tool in SBCL;
+3. Documentation for these extensions;
+4. (optional) Suggestion of alternative less error-prone constructs
+   for sb-concurrency or sb-thread.
+
+*** Prerequisites
+Familiarity with the POSIX threads programming model.  An awareness of
+the execution process for multi-socket systems with multiple levels of
+cache would be useful, but not necessary.
+
+*** Student learning
+The student would become intimately familiar with the sort of bugs
+commonly encountered in threaded system.  They would also study state
+of the art tools to detect such bugs, and replicate some of them for
+integration in a pre-existing environment.  They would also exercise
+their technical writing skills to document the tools and describe
+their correct use.  Finally, they would demonstrate the ability to
+propose elegant architectural solutions to complex issues.
+
+* High-level optimisation
+These project are mostly concerned with extending the initial
+(mostly target-independent) optimisation phase.
+
+** Efficient integer truncate/floor/ceiling by constants
 Integer division is notorious for being slow.  However, it is also
 known that the divisor is constant in the vast majority of cases, and
 serious compilers exploit that fact to simplify divisions into
@@ -189,7 +291,7 @@ by integer constants.  Some of the simplifications, particularly those
 concerning tagged integers, will be widely applicable and likely
 novel.
 
-** Deliverables
+*** Deliverables
 1. Implement strength reduction of signed truncated division;
 2. Determine how to correctly simplify floor and ceiling division;
 3. Implement strength reduction of floor and ceiling division;
@@ -197,11 +299,11 @@ novel.
 5. Extend the test suite for integer division by constants;
 6. (optional) Extend the work to constant division by rationals.
 
-** Prerequisites
+*** Prerequisites
 Basic number theory. Some work will likely be at the assembly level,
 but what little is necessary can be acquired on the fly.
 
-** Student learning
+*** Student learning
 The student would apply pure mathematics concepts from number theory
 to understand how to correctly simplify operations in computer
 programs.  They would likely become acquainted with the performance
@@ -211,7 +313,7 @@ also show the correctness of simple but novel variations, and exploit
 their understanding of the problem domain to develop tests that are
 likely to detect incorrect transformations.
 
-* Exploiting switch/case in standard control structures
+** Exploiting switch/case in standard control structures
 While Common Lisp exposes case constructs, there is no standard
 support for constant-time computed goto or C-style switch/case flow
 control.  A partial patch to extend SBCL with such an
@@ -222,7 +324,7 @@ standard flow control macros.  This project would greatly improve the
 performance of some state machines implementations, and benefit to a
 wide range of programs that use standard case constructs directly.
   
-** Deliverable
+*** Deliverable
 1. Forward-port the indirect-jump patch;
 2. Expose the new operator in a standard-compliant manner;
 3. Create benchmarks to understand how to best use this new operator;
@@ -230,11 +332,11 @@ wide range of programs that use standard case constructs directly.
    macros;
 5. (optional) For the patch to additional computer architectures.
 
-** Prerequisites
+*** Prerequisites
 Knowledge of x86[-64] assembly language. Familiarity with advanced
 compilation techniques is an advantage.
 
-** Student learning
+*** Student learning
 The student would gain an overview of the complete pipeline in a
 production compiler, from the front-end, to dataflow analyses, to the
 generation of machine code.  They would also have to work within an
@@ -244,7 +346,12 @@ architectures, particularly at the level of branch prediction, in
 order to transparently improve the runtime efficiency of flow control
 constructs.
 
-* Accurate and correct numeric type derivation
+* Middle end infrastructure
+These projects are concerned with the target-independent optimisation
+phase as well, but modifies its infrastructure, rather than using it
+to add more smartness to the compiler.
+
+** Accurate and correct numeric type derivation
 The static derivation of intervals for the values taken by
 mathematical operations is essential for Common Lisp compilers to
 convert idiomatic programs to machine code comparable with that of
@@ -254,7 +361,7 @@ rounding mode differs between the compilation and execution
 environments.  Upon completion, this project would result in simpler
 and more robust routines to propagate numeric intervals for SBCL.
 
-** Deliverables
+*** Deliverables
 1. A naïve but clearly correct interval derivation module;
 2. Development of test cases to trigger issues in numeric
    (floating-point) type derivation;
@@ -262,11 +369,11 @@ and more robust routines to propagate numeric intervals for SBCL.
 4. (optional) Express the interval derivation logic in portable Common
    Lisp for the cross-compiler.
 
-** Prerequisites
+*** Prerequisites
 Some real analysis. Minimal familiarity with numerical analysis and
 with the implementation of floating-point arithmetic in computers.
 
-** Student learning
+*** Student learning
 The student will bridge between their understanding of mathematical
 operations with their concrete approximation in contemporary computers
 to safely characterise the behaviour of arbitrary Common Lisp
@@ -275,73 +382,155 @@ analysis, and become acquainted with the difference between
 theoretical mathematics and floating-point operations.  They will also
 learn to exploit the concrete representation of floating-point values
 to implement simple and efficient, but correct numerical algorithms.
-* Improving the thread-safety of the object system
-Developers continually attempt to reduce SBCL's reliance on a single
-"world" lock.  This effort has lead to the elimination of some
-re-entrancy issues, and to the introduction of a few concurrency bugs,
-many of them related to the Common Lisp Object System (CLOS).  Some
-bugs are easily triggered, other depend on rare race conditions.  Some
-could be fixed with additional lockings, others through the use of
-mostly non-blocking synchronisation techniques, and others still by
-outright modifying the behaviour of the object system.  This project
-requires the student to organise known or potential concurrency bugs
-in PCL, SBCL's implementation of CLOS, and attempt to fix them.
+** Expression optimisation
+Although SBCL performs fairly sophisticated analyses, subsequent
+transformations are performed (except for a few exception) bottom-up,
+one function call at a time.  A large body of classic techniques is
+available to optimise complete (side-effect-free) expression trees
+top-down.  Upon completion, this project would extend SBCL with a
+system to define tree rewriting rules, and execute them on code.
+Arithmetic and bitwise operations would likely benefit, as would
+modular arithmetic and embedded domain-specific languages.
+ 
+*** Deliverables
+1. Detection and visualisation of expression trees in the first
+   intermediate representation (IR1);
+2. Insertion of a top-down rewriting pass in the IR1 optimisation
+   loop;
+3. Development of a pattern and transform definition language for
+   expression trees;
+4. Implementation of a few rewrites with this new infrastructure.
 
-** Deliverables
-1. Collect, organise, and diagnose concurrency bugs in PCL;
-2. Fix some of these bugs;
-3. Develop a methodology to trigger hard-to-detect concurrency bugs in
-   PCL;
-4. Suggest generally-applicable techniques to eliminate such bugs from
-   PCL and the runtime system (optional).
+*** Prerequisite
+Basic discrete mathematics.  Familiarity with formal grammars and
+automata theory is optional.
 
-** Prerequisites
-Basic understanding of shared-memory concurrency.  A conservative
-understanding of specific memory models will be developed in parallel
-with the work.
+*** Student learning
+The student would improve their understanding of the compilation
+process for pure expressions, and review, then implement, classic
+techniques for their improvement.  They would also develop a new
+internal library feature, and exploit it to show concrete improvements
+in the compiler's output.
 
-** Student learning
-The student will encounter concurrency bugs in a complex stateful
-system that exploits both lock-based concurrency control and lock-free
-operations.  They will develop an understanding for the issues
-encountered in such systems, and learn how to detect and then solve
-them.
+** Coarser type derivation system
+Common Lisp's type system is extremely expressive, and it is expected
+that complicated types will lead to slow type tests and comparisons.
+SBCL exploits this expressiveness to implement fine-grained
+flow-sensitive analyses.  In many cases, particularly when execution
+speed is a secondary concern, tracking types less precisely would
+improve compilation speed significantly, without overly affecting the
+object code.  This project consists of first identifying points in
+SBCL's analysis passes where types could be profitably widened, of
+designing a coarse type lattice that accelerates compilation, and of
+implementing that coarse lattice in SBCL.
 
-* Threading/locking debugging facilities
-SBCL exposes low-level shared memory concurrency and parallelism
-constructs: threads, locks, atomic operations, etc.  Such constructs
-are easily misused, and other projects and languages implementations
-have developed tools to detect and understand concurrency bugs (both
-in terms of correctness and of performance).  For example, Linux's
-locking correctness validator (lockdep) seems well suited to Common
-Lisp.  Other proven tools would no doubt benefit to SBCL and its
-users.  A successful project would identify existing (or create) tools
-that are promising to assist in the development of threaded
-applications with SBCL, and implement and document some of these
-tools.
+*** Deliverables
+1. Gather example code that exercises SBCL's type-based analyses;
+2. Determine what operations exhibit complexity blowups in these
+   examples;
+3. Define a simple type widening operator, and insert it in key
+   places;
+4. Experiment with various widening strategies and alternative type
+   lattices to improve compilation speed while preserving correctness
+   and reasonable execution efficiency.
 
-** Deliverables
-1. Survey of proven threading/locking debugging tools;
-2. Implementation and integration of at least one such tool in SBCL;
-3. Documentation for these extensions;
-4. (optional) Suggestion of alternative less error-prone constructs
-   for sb-concurrency or sb-thread.
+*** Prerequisites
+Proficiency in discrete mathematics, particularly set theory.  The
+student is expected to become familiar with data flow analyses in the
+course of the project.
 
-** Prerequisites
-Familiarity with the POSIX threads programming model.  An awareness of
-the execution process for multi-socket systems with multiple levels of
-cache would be useful, but not necessary.
+*** Student learning
+The student will acquire experience at profiling a complex symbolic
+manipulation system. They will then apply their results to improve the
+practical performance of the system, while preserving its mathematical
+correctness.  They will also strengthen their mastery of the static
+(data flow) analysis of impure languages.
 
-** Student learning
-The student would become intimately familiar with the sort of bugs
-commonly encountered in threaded system.  They would also study state
-of the art tools to detect such bugs, and replicate some of them for
-integration in a pre-existing environment.  They would also exercise
-their technical writing skills to document the tools and describe
-their correct use.  Finally, they would demonstrate the ability to
-propose elegant architectural solutions to complex issues.
+** Quick compilation
+SBCL inherited from CMUCL a complicated compilation process geared
+toward the generation of efficient machine code.  A simple interpreter
+enables SBCL to avoid this overhead in contexts when execution speed
+is not an issue at all.  Many programs would benefit from more
+straightforward compilation, an intermediate choice between the
+current extremes of a full type-propagating compiler and an
+s-expression interpreter.  If completed, this project would enable
+time-consuming phases of the compiler to be disabled or replaced with
+coarser, but more quickly-executed, ones.  This would result in
+reduced compilation times for code that isn't performance-critical,
+and, potentially, the ability to compile very large computer-generated
+functions.
 
-* Modernising a graph-colouring register allocator
+*** Deliverables
+1. Identify the most time-consuming phases of the compiler;
+2. Extend performance and correctness tests for the compiler;
+3. Determine how to disable or simplify time-consuming phases, while
+   preserving correctness;
+4. (optional) Develop alternatives for a few recursive or super-linear
+   computations in the compilation process.
+
+*** Prerequisites
+No strict prerequisite. An interest in compilation would be helpful,
+as would familiarity with the analysis and design of algorithms and
+data structures.  The student will become comfortable with set and
+lattice theory.
+
+*** Student learning
+The student will gather representative code samples from actual users,
+and exploit them to build an understanding of the empiric performance
+of SBCL's compiler.  They will also use this data to develop
+benchmarks that reflect real-world needs, and design tests to convince
+themselves and others that changes to a large system preserve its
+correctness.  They will finally exploit these tools to determine which
+parts of the compiler should be disabled or simplified, and how to do
+so.
+
+** Precise type derivation
+SBCL and CMUCL are recognized for the strength of their type-directed
+optimisations, which depends on the quality of the type propagation
+pass.  That pass exhibits severe weaknesses in the presence of
+recursion or of assignments: such non-trivial bindings are initialised
+with a static type of T (barring any user-provided declaration), and
+that type is iteratively tightened.  This approach has the advantage
+of always assigning correct types at any time, even if a fixpoint is
+not yet reached.  However, when compilation times are not an issue and
+the analysis is executed until termination, initialising bindings with
+a static time of NIL (the bottom type) and widening the type
+assignments iteratively would result in the automatic derivation of
+more precise types.  If completed, this project would implement such a
+precise flow-sensitive data-flow analysis, and let it be enabled on
+demand within the normal compilation pipeline.
+
+*** Deliverables
+1. Code samples exhibiting disastrously weak type derivation;
+2. A correct and probably very slow (or even non-terminating)
+   implementation of a precise type derivation pass;
+3. Integration of that pass in the compilation pipeline;
+4. (optional) Experiments with strategies to ensure the pass
+   terminates after reasonable computation times.
+
+*** Prerequisites
+Proficiency in discrete mathematics, particularly set theory.  The
+student is expected to become familiar with data flow analyses in the
+course of the project.
+
+*** Student learning
+The student will learn to apply abstract concepts in the design of a
+data flow analysis pass for an impure language.  They will do so
+within the limits of a standards-defined language that is not
+explicitly designed to enable sophisticated static analyses.  Finally,
+they will research and discover strategies to render practically
+usable a theoretically correct symbolic process.
+
+
+
+
+
+* Back end work
+The following projects improve or add functionality in the back end of
+the compiler, the phase that exploits architecture-specific
+information to generate machine code.
+
+** Modernising a graph-colouring register allocator
 Variables are mapped to registers or stack locations in SBCL with a
 straightforward graph-colouring allocator.  Graph colouring is a
 well-known combinatorial optimisation problem, and, although it is
@@ -359,7 +548,7 @@ multiple sections, if compensation code is inserted as needed.
 Through any of these means, the project would improve the performance
 of code that exhibits high register pressure.
 
-** Deliverables
+*** Deliverables
 1. Accumulate a few functions that exhibit register allocation issues;
 2. Improve the graph-colouring heuristic by adapting well-known
    methods;
@@ -368,52 +557,18 @@ of code that exhibits high register pressure.
 5. (optional) Exploit register-register exchange instructions to
    enable SSA-style register allocation.
 
-** Prerequisites
+*** Prerequisites
 Basic familiarity with assembly language. Some knowledge of discrete
 mathematics and of graph theory.
 
-** Student learning
+*** Student learning
 The student will apply sophisticated heuristics to solve an NP-Hard
 problem.  They will also learn to map abstract discrete optimisation
 concepts to concrete low-level concepts such as architectural
 registers and assembly instructions, and develop specialised methods
 that straddle the two views to exploit domain-specific knowledge.
 
-* Simpler structure layout
-Structure objects in Common Lisp support single inheritance and typed
-slots so as to offer both extensibility and performance.  SBCL
-implements slots of unboxed data by allocating them from the end of
-(variable-length, because of inheritance) structure objects.  Access
-to an unboxed slot thus first determines the size of the current
-object in all but a few cases.  However, nothing prevents boxed and
-unboxed slots from being interleaved, as long as alignment
-requirements are respected and the garbage collector's scanning
-routine for structures is suitably adapted.  A branch partially
-implements this improvement, and the work is assuredly feasible.  If
-completed, this project would lead to more efficient access to
-structure slots, and potentially let structures be laid out compatibly
-with some ABIs, thus simplifying foreign calls.
-
-** Deliverables
-1. Forward port the interleaved unboxed slot branch;
-2. Develop tests for the garbage collector, the interpreter, and the
-   introspection facilities;
-3. Determine how to use this new freedom in object layouts;
-4. Measure the impact of the changes on the memory usage and on the
-   runtime performance of representative programs.
-
-** Prerequisites
-Some experience with Common Lisp. Familiarity with x86 or x86-64
-assembly language is helpful but optional.
-
-** Student learning
-The student would become comfortable with data representation issues
-at a low level, develop and execute tests for a fundamental part of
-the system, and guide technical decisions with empiric measures from
-benchmarks that reflect reality.  Moreover, this would be done within
-the constraints specified by a standard.
-
-* Selecting concrete representations cleverly
+** Selecting concrete representations cleverly
 An essential trick to SBCL's performance is its ability to represent
 the same data in multiple manners, as boxed values, or as
 machine-native values, e.g. signed or unsigned words, or floating
@@ -435,7 +590,7 @@ development of a novel algorithm for a problem essential to the
 performance of dynamically-typed languages, and its application in a
 pre-existing compiler, thus showing clear practical improvement.
 
-** Deliverables
+*** Deliverables
 1. Describe the objective and constraints in the representation
    selection problem;
 2. Reduce the representation selection problem to better understood
@@ -446,11 +601,11 @@ pre-existing compiler, thus showing clear practical improvement.
 5. (optional) Implement SSA-style representation selection, with
    conversion code at control flow fork/join points.
 
-** Prerequisites
+*** Prerequisites
 Basic familiarity with assembly language. Some knowledge of discrete
 mathematics and of graph theory.
 
-** Student learning
+*** Student learning
 The student will learn to describe a complicated, industrial,
 combinatorial optimisation problem formally, and to reduce it to
 classic optimisation problems.  They will then have an opportunity to
@@ -459,37 +614,7 @@ practice.  Finally, they will be lead to iteratively improve that
 formal model to better represent the actual problem, while ensuring
 the existence of efficient solving methods.
 
-* Expression optimisation
-Although SBCL performs fairly sophisticated analyses, subsequent
-transformations are performed (except for a few exception) bottom-up,
-one function call at a time.  A large body of classic techniques is
-available to optimise complete (side-effect-free) expression trees
-top-down.  Upon completion, this project would extend SBCL with a
-system to define tree rewriting rules, and execute them on code.
-Arithmetic and bitwise operations would likely benefit, as would
-modular arithmetic and embedded domain-specific languages.
- 
-** Deliverables
-1. Detection and visualisation of expression trees in the first
-   intermediate representation (IR1);
-2. Insertion of a top-down rewriting pass in the IR1 optimisation
-   loop;
-3. Development of a pattern and transform definition language for
-   expression trees;
-4. Implementation of a few rewrites with this new infrastructure.
-
-** Prerequisite
-Basic discrete mathematics.  Familiarity with formal grammars and
-automata theory is optional.
-
-** Student learning
-The student would improve their understanding of the compilation
-process for pure expressions, and review, then implement, classic
-techniques for their improvement.  They would also develop a new
-internal library feature, and exploit it to show concrete improvements
-in the compiler's output.
-
-* Peephole optimisation
+** Peephole optimisation
 Most of the cleverness in SBCL is in the front-end.  Once Common Lisp
 has been lowered to an explicitly-typed C-level intermediate
 representation, very few analyses and optimisations are performed,
@@ -503,7 +628,7 @@ a tree from virtual operations.  The project would implement such a
 peephole pass, offer a modular way to define new patterns, and add a
 few such patterns for commonly-used architectures.
 
-** Deliverables
+*** Deliverables
 1. Determine how to inject ad hoc rewrites during the emission of
    machine code;
 2. Implement a simple, specialised, optimisation using that mechanism;
@@ -512,11 +637,11 @@ few such patterns for commonly-used architectures.
 4. Implement some rewrites using that pattern-definition language, and
    show improvements in some degenerate cases.
 
-** Prerequisites
+*** Prerequisites
 Familiarity with assembly language in at least one platform supported
 by SBCL.
 
-** Student learning
+*** Student learning
 The student will have evaluated how to best extend a system in a
 direction that was not considered during its initial design.  They
 will also review various approaches to improve code generation at a
@@ -524,7 +649,51 @@ low level, and create a new domain-specific language that will be used
 by others.  They will finally develop code to detect and improve code
 at the assembly level.
 
-* Software write barriers
+* Diving in the runtime system
+Projects in this section really let the coder feel bits and syscalls
+between their toes.  Work involving the runtime system tends to be
+challenging because the programmer must take into account many facets
+of SBCL, from library code, to type information in the middle end, to
+invariants in the back end.  These are high risk/high reward projects;
+most of the risk is due to a high potential for failure, but it's also
+not obvious that a successful implementation will result in any
+improvement.
+
+** Simpler structure layout
+Structure objects in Common Lisp support single inheritance and typed
+slots so as to offer both extensibility and performance.  SBCL
+implements slots of unboxed data by allocating them from the end of
+(variable-length, because of inheritance) structure objects.  Access
+to an unboxed slot thus first determines the size of the current
+object in all but a few cases.  However, nothing prevents boxed and
+unboxed slots from being interleaved, as long as alignment
+requirements are respected and the garbage collector's scanning
+routine for structures is suitably adapted.  A branch partially
+implements this improvement, and the work is assuredly feasible.  If
+completed, this project would lead to more efficient access to
+structure slots, and potentially let structures be laid out compatibly
+with some ABIs, thus simplifying foreign calls.
+
+*** Deliverables
+1. Forward port the interleaved unboxed slot branch;
+2. Develop tests for the garbage collector, the interpreter, and the
+   introspection facilities;
+3. Determine how to use this new freedom in object layouts;
+4. Measure the impact of the changes on the memory usage and on the
+   runtime performance of representative programs.
+
+*** Prerequisites
+Some experience with Common Lisp. Familiarity with x86 or x86-64
+assembly language is helpful but optional.
+
+*** Student learning
+The student would become comfortable with data representation issues
+at a low level, develop and execute tests for a fundamental part of
+the system, and guide technical decisions with empiric measures from
+benchmarks that reflect reality.  Moreover, this would be done within
+the constraints specified by a standard.
+
+** Software write barriers
 Generational garbage collectors attempt to process the heap
 incrementally by determining when writes to old objects may have
 created new references.  SBCL implements such write barriers with
@@ -541,7 +710,7 @@ bugs.  If successful, this project would forward port one such
 attempt, develop tests for the software write barriers, and implement
 an architectural change that involves large portions of the code base.
 
-** Deliverables
+*** Deliverables
 1. Forward port of a software write barrier branch;
 2. Development of unit tests for the garbage collector, particularly
    for the write barriers;
@@ -551,10 +720,10 @@ an architectural change that involves large portions of the code base.
    SBCL, e.g. by allowing boxed and unboxed objects to be allocated
    contiguously, or by enabling huge pages.
 
-** Prerequisites
+*** Prerequisites
 Familiarity with x86-64 assembly language.  
 
-** Student learning
+*** Student learning
 The student would acquire experience working with compilers and
 runtime systems at the assembly level, and develop techniques to
 automatically detect subtle code generation and concurrency bugs.
@@ -562,7 +731,7 @@ They would also improve their ability to characterise the performance
 of (a part of) a complex system, and act upon that information to
 improve such a system.
 
-* Improving SBCL's memory allocator
+** Improving SBCL's memory allocator
 SBCL's memory management system includes a page-level block allocator.
 It is mainly used to manage large objects and thread-local allocation
 regions.  The scheme exhibits at least two clear deficiencies. First,
@@ -581,7 +750,7 @@ Upon completion, this project would have lead to the identification of
 systems-level issues in SBCL's memory management strategies, and to
 the application of changes to eliminate or alleviate these issues.
 
-** Deliverables
+*** Deliverables
 1. Microbenchmarks to understand the effect of aliasing and data
    misalignment when processing large (vector) data;
 2. Development of alternative large object allocation and deallocation
@@ -592,11 +761,11 @@ the application of changes to eliminate or alleviate these issues.
 4. (optional) Identification of further global issues in SBCL's memory
    management.
 
-** Prerequisites
+*** Prerequisites
 Proficiency in C.  Basic understanding of computer architecture and of
 contemporary operating systems.
 
-** Student learning
+*** Student learning
 The student will gain concrete experience at debugging and tuning the
 performance of a complete system, with interactions between a managed
 language runtime, the operating system, and the CPU's
@@ -605,107 +774,7 @@ architecture and operating systems theory to improve the performance
 of a runtime system, they will also apply statistical techniques to
 convincingly exhibit these improvements.
 
-* Coarser type derivation system
-Common Lisp's type system is extremely expressive, and it is expected
-that complicated types will lead to slow type tests and comparisons.
-SBCL exploits this expressiveness to implement fine-grained
-flow-sensitive analyses.  In many cases, particularly when execution
-speed is a secondary concern, tracking types less precisely would
-improve compilation speed significantly, without overly affecting the
-object code.  This project consists of first identifying points in
-SBCL's analysis passes where types could be profitably widened, of
-designing a coarse type lattice that accelerates compilation, and of
-implementing that coarse lattice in SBCL.
-
-** Deliverables
-1. Gather example code that exercises SBCL's type-based analyses;
-2. Determine what operations exhibit complexity blowups in these
-   examples;
-3. Define a simple type widening operator, and insert it in key
-   places;
-4. Experiment with various widening strategies and alternative type
-   lattices to improve compilation speed while preserving correctness
-   and reasonable execution efficiency.
-
-** Prerequisites
-Proficiency in discrete mathematics, particularly set theory.  The
-student is expected to become familiar with data flow analyses in the
-course of the project.
-
-** Student learning
-The student will acquire experience at profiling a complex symbolic
-manipulation system. They will then apply their results to improve the
-practical performance of the system, while preserving its mathematical
-correctness.  They will also strengthen their mastery of the static
-(data flow) analysis of impure languages.
-
-* Quick compilation
-SBCL inherited from CMUCL a complicated compilation process geared
-toward the generation of efficient machine code.  A simple interpreter
-enables SBCL to avoid this overhead in contexts when execution speed
-is not an issue at all.  Many programs would benefit from more
-straightforward compilation, an intermediate choice between the
-current extremes of a full type-propagating compiler and an
-s-expression interpreter.  If completed, this project would enable
-time-consuming phases of the compiler to be disabled or replaced with
-coarser, but more quickly-executed, ones.  This would result in
-reduced compilation times for code that isn't performance-critical,
-and, potentially, the ability to compile very large computer-generated
-functions.
-
-** Deliverables
-1. Identify the most time-consuming phases of the compiler;
-2. Extend performance and correctness tests for the compiler;
-3. Determine how to disable or simplify time-consuming phases, while
-   preserving correctness;
-4. (optional) Develop alternatives for a few recursive or super-linear
-   computations in the compilation process.
-
-** Prerequisites
-No strict prerequisite. An interest in compilation would be helpful,
-as would familiarity with the analysis and design of algorithms and
-data structures.  The student will become comfortable with set and
-lattice theory.
-
-** Student learning
-The student will gather representative code samples from actual users,
-and exploit them to build an understanding of the empiric performance
-of SBCL's compiler.  They will also use this data to develop
-benchmarks that reflect real-world needs, and design tests to convince
-themselves and others that changes to a large system preserve its
-correctness.  They will finally exploit these tools to determine which
-parts of the compiler should be disabled or simplified, and how to do
-so.
-
-* Efficient interpretation
-SBCL inherited from CMUCL a complicated compilation process geared
-toward the generation of efficient machine code.  A simple interpreter
-enables SBCL to avoid this overhead in contexts when execution speed
-is not an issue at all.  Many programs would benefit from more
-efficient interpretation, an intermediate choice between the current
-extremes of a full type-propagating compiler and an s-expression
-interpreter.  Completion of this project entails the development of a
-standard-compliant minimal compiler.
-
-** Deliverables
-1. Disentangle or replicate the front-end to perform minimal
-   compilation;
-2. Define an intermediate representation appropriate for the
-   efficient interpretation of Common Lisp code;
-3. Develop a compiler from minimally-compiled source to the
-   intermediate representation.
-
-** Prerequisite
-Familiarity with Lisp macros and with first-class functions.
-
-** Student learning
-The student would improve their ability to read, understand, and
-implement an ANSI standard.  They would then explore the performance
-of a few standard or novel interpretation schemes on contemporary
-computers.  Finally, they would develop a small compiler for a
-practical programming language.
-
-* Garbage collection debugging and heap assertions
+** Garbage collection debugging and heap assertions
 Pointer-based data structures can be particularly difficult to debug;
 automatic garbage collection eliminates some of these bugs, but also
 introduces subtle memory leaks.  Some ad hoc tools are already
@@ -719,7 +788,7 @@ large.  This project consists of improving upon existing tools to
 allow programmers to efficiently detect and eliminate memory leaks and
 check problem-specific data structure invariants.
 
-** Deliverables
+*** Deliverables
 1. Development of a few fixed assertions (e.g. that an objects is
    dead, or is refered by exactly one heap object) that can be checked
    asynchronously, during or after major garbage collection cycles;
@@ -729,13 +798,13 @@ check problem-specific data structure invariants.
 4. (optional) Development of a domain specific language to allow the
    description of specialised assertions.
 
-** Prerequisites
+*** Prerequisites
 Familiarity with manual memory management, and with the manipulation
 of pointers.  Knowledge of graph theory and predicate logic may be
 useful.  Interest in the low end of complexity classes would be an
 asset.
 
-** Student learning
+*** Student learning
 The student would identify how to respond to the needs expressed by
 programmers, most likely by taking inspiration from tools described in
 scientific literature.  They would also become proficient at
@@ -745,7 +814,7 @@ design and implementation of domain specific languages: the language
 will balance the conflicting goals of expressiveness and of efficient
 execution within very little writable storage.
 
-* A hybrid copying/mark-and-sweep garbage collector
+** A hybrid copying/mark-and-sweep garbage collector
 SBCL's garbage collector is a mostly-copying generational garbage
 collector (gencgc).  Heap sizes have grown by multiple orders of
 magnitude since the era when gencgc was designed.  It now seems
@@ -759,7 +828,7 @@ difficult software development choices.  The result would be
 improvements in the responsiveness and throughput of a production
 language implementation.
 
-** Deliverables
+*** Deliverables
 1. Description of the interface between SBCL's runtime and its memory
    management subsystem;
 2. Implementation of mark-and-sweep in a distinct heap from the
@@ -771,10 +840,10 @@ language implementation.
    images and to save less fragmented images;
 5. (optional) Improved performance on read-mostly data.
 
-** Prerequisites
+*** Prerequisites
 Knowledge of C and understanding of operating systems internals. 
 
-** Student learning
+*** Student learning
 The student will appreciate the challenges faced by the
 implementations of languages with managed memory.  They will
 understand the theory of classic garbage collection and memory
@@ -782,7 +851,7 @@ management algorithms, and implement them.  They will also develop
 code that interacts directly with the operating system in order to
 manage resources efficiently.
 
-* Replacing the garbage collector with MPS
+** Replacing the garbage collector with MPS
 SBCL's garbage collector is well-modularised, but shares code only
 with CMUCL, and suffers from a rigid design.  Ravenbrook's Memory Pool
 System (MPS) is a flexible, high-performance, open source memory
@@ -793,7 +862,7 @@ would deeply integrate a complex library in a large system by
 characterising their respective requirements and judiciously inserting
 logic to make the two designs compatible.
   
-** Deliverable
+*** Deliverable
 1. Description of the interface between SBCL's runtime and its memory
    management subsystem;
 2. Stand-alone program that interfaces with MPS and presents
@@ -806,10 +875,10 @@ logic to make the two designs compatible.
    and how to expose that choice to users.
 5. (optional) Port SBCL/MPS to several platforms.
 
-** Prerequisites
+*** Prerequisites
 Knowledge of C and understanding of operating systems internals.
 
-** Student learning
+*** Student learning
 The student will become familiar with the memory management subsystem
 used in a managed language that supports OS threads, and with the
 internals of a state of the art garbage collector.  They will then
@@ -818,50 +887,11 @@ systems.  They will also interface directly with the operating systems
 as required for the development of a performance-oriented runtime
 system.
 
-* Precise type derivation
-SBCL and CMUCL are recognized for the strength of their type-directed
-optimisations, which depends on the quality of the type propagation
-pass.  That pass exhibits severe weaknesses in the presence of
-recursion or of assignments: such non-trivial bindings are initialised
-with a static type of T (barring any user-provided declaration), and
-that type is iteratively tightened.  This approach has the advantage
-of always assigning correct types at any time, even if a fixpoint is
-not yet reached.  However, when compilation times are not an issue and
-the analysis is executed until termination, initialising bindings with
-a static time of NIL (the bottom type) and widening the type
-assignments iteratively would result in the automatic derivation of
-more precise types.  If completed, this project would implement such a
-precise flow-sensitive data-flow analysis, and let it be enabled on
-demand within the normal compilation pipeline.
-
-** Deliverables
-1. Code samples exhibiting disastrously weak type derivation;
-2. A correct and probably very slow (or even non-terminating)
-   implementation of a precise type derivation pass;
-3. Integration of that pass in the compilation pipeline;
-4. (optional) Experiments with strategies to ensure the pass
-   terminates after reasonable computation times.
-
-** Prerequisites
-Proficiency in discrete mathematics, particularly set theory.  The
-student is expected to become familiar with data flow analyses in the
-course of the project.
-
-** Student learning
-The student will learn to apply abstract concepts in the design of a
-data flow analysis pass for an impure language.  They will do so
-within the limits of a standards-defined language that is not
-explicitly designed to enable sophisticated static analyses.  Finally,
-they will research and discover strategies to render practically
-usable a theoretically correct symbolic process.
-
-
-
-
-
-
 
 * Projects that may be further described if there is interest
+The path for these project is significantly murkier, as is their
+usefulness.
+
 ** Free-er form displaced arrays
 ** Autodxification of higher-order functions
 ** Better failure modes for heap overflow
@@ -912,7 +942,6 @@ benefits in terms of image size.
 ** Shared memory multi-process heap
 ** Faster FASL loading
 ** Scheduling pass
-
 
 ** utf-8b
 
