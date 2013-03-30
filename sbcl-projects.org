@@ -157,7 +157,7 @@ pre-existing code.  They will also hone their ability to adapt
 algorithms to vector processing, and develop methods to determine when
 and how operations should be vectorised.
 
-** More efficient hash functions and hash tables
+** Stronger hash functions and specialised hash tables
 As mandated by the standard, SBCL offers hash tables and exposes
 pre-defined hash functions.  Interactions with other parts of the
 system make it challenging to improve general-purpose hash tables.
