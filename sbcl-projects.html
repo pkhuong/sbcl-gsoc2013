@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Project Ideas</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-04-13 19:13:27 CEST"/>
+<meta name="generated" content="2013-04-13 20:16:19 CEST"/>
 <meta name="author" content="pkhuong"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -1291,6 +1291,69 @@ parts of the compiler should be disabled or simplified, and how to do
 so.
 </p>
 </div>
+
+</div>
+
+<div id="outline-container-3.4.4" class="outline-4">
+<h4 id="sec-3.4.4"><span class="section-number-4">3.4.4</span> Preliminary work, notes, etc. </h4>
+<div class="outline-text-4" id="text-3.4.4">
+
+<p>Short IRC transcript on the topic
+</p>
+
+
+<pre class="example">06:53 &lt; pkhuong&gt; I believe you had some stuff on quicker compilation? Is there any preliminary branch, patch set or notes I should point people to?
+07:01 &lt;@nikodemus&gt; pkhuong: not as such
+07:02 &lt;@nikodemus&gt; i can write a quick braindump
+07:02 &lt;@nikodemus&gt; IIRC. the biggest timesink is constraint propagation.
+07:03 &lt;@nikodemus&gt; IIRC. the trickiest thing about eliminating it is that we have a bunch of places that assume that certain things are always optimized.
+07:03 &lt;@nikodemus&gt; so if you eliminate it, you get "correct" code that the rest of the system cannot deal with
+07:05 &lt;@nikodemus&gt; being a silly young thing, i was working on essentially adding IR0 which would have been a fast way to get those minimal things sorted out. I still think that's possible, 
+                   but it probably isn't the best way to go about it...
+07:07 &lt;@nikodemus&gt; i think it would be a reasonable approach to just diable it, and see where things break, and start fixing the places that make those assumptions
+07:07 &lt;@nikodemus&gt; EOBD
+07:07 &lt;@nikodemus&gt; s/diable/disable/
+07:09 &lt; pkhuong&gt; sounds right to me as well.
+07:12 &lt; pkhuong&gt; So, I see where constraint propagation can be simplified... we need quick but conservative type union/intersection... csubtypep as well, I guess.
+07:13 &lt; pkhuong&gt; Then, see what happens to the transforms, and play whack-a-mole.
+07:13 &lt;@nikodemus&gt; IIRC a typical breaked is from eg (coerce x 'list) =&gt; (the list (if (listp x) x (convert-to-list x))) sort of transforms
+07:14 &lt; pkhuong&gt; how does that break?
+07:15 &lt;@nikodemus&gt; don't remember the details. maybe when X is known not to be a list due to a declaration?
+07:16 &lt;@nikodemus&gt; so you end up with something like (the list (the (not list) x))
+07:16 &lt;@nikodemus&gt; which the compiler won't like
+07:16 &lt;@nikodemus&gt; or maybe it was IR1-OPTIMIZE that was needed to kill the IF
+07:17 &lt; pkhuong&gt; oh yeah.
+07:17 &lt; pkhuong&gt; constraints need ir1 optimise to kill (if [x] [block] [same block]) into (progn [x] [block])
+07:19 &lt;@nikodemus&gt; and (if [always false] [will cause a runtime error] [ok])?
+07:19 &lt;@nikodemus&gt; because some of the breakaged were WARNINGs due to compiler thinking it sees something that will break at runtime for sure
+07:19 &lt;@nikodemus&gt; breakages, even
+07:19 &lt; pkhuong&gt; I think that's all right, wrt codegen. I changed that to style warnings because of ppcre
+07:20 &lt;@nikodemus&gt; oh
+07:20 &lt; pkhuong&gt; If there's a branch on the path (well, it's a hack, but catches most cases), the warning is downgraded to a style warning.
+07:21 &lt;@nikodemus&gt; right
+07:21 &lt;@nikodemus&gt; then there are our always-translatable things, i guess
+07:22 &lt; pkhuong&gt; shouldn't we get nearly all of those right just with the defknowned types?
+07:22 &lt;@nikodemus&gt; and many many transforms which should not be done unless we're actually going to compile things as well as we can
+07:22 &lt;@nikodemus&gt; most, i think
+07:22 &lt; pkhuong&gt; there's that. workingness would be a good first step though (:
+07:23 &lt;@nikodemus&gt; and the rest should probably not be always-translatable, but something like mostly-translatable :)
+07:23 &lt; pkhuong&gt; right.
+07:24 &lt;@nikodemus&gt; yeah, and eliminating transforms is the completely wrong first step, because /almost/ any problematic code a transform can inject can also come from a user
+07:25 &lt;@nikodemus&gt; though i'm willing to give a pass to eliminating transforms that produce (sb-foo:%something-magic ...) if they turn out to be a problem
+07:25 &lt; pkhuong&gt; yes and no... We could only run CP once. User code would benefit from minimal constraints, but deftransformed code not.
+07:26 &lt;@nikodemus&gt; sure, but in deep CMUCL time CP used to be completely optional
+07:26 &lt;@nikodemus&gt; i'd sort of like to restore that
+07:26 &lt; pkhuong&gt; right.
+07:26 &lt;@nikodemus&gt; oops. make that "would like to see that restored" :)
+07:27 &lt; pkhuong&gt; Also, our transforms go out of their way to depend on CP: expand into a lambda without type declaration on the arguments?
+07:28 &lt;@nikodemus&gt; the deftransform could magically add most of the type information there, i think
+07:28 &lt;@nikodemus&gt; (a case for truly-type declaration?)
+</pre>
+
+
+
+
+</div>
 </div>
 
 </div>
@@ -2397,7 +2460,7 @@ benefits in terms of image size.
 </div>
 </div>
 <div id="postamble">
-<p class="date"> Date: 2013-04-13 19:13:27 CEST</p>
+<p class="date"> Date: 2013-04-13 20:16:19 CEST</p>
 </div>
 </div>
 </body>
