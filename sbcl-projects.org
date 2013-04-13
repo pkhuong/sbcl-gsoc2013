@@ -87,6 +87,17 @@ technical decisions.  They would also exercise test methodologies, and
 potentially implement algorithms described by specialised scientific
 literature.
 
+*** Preliminary work, notes, etc.
+Code by Waldek Hebisch
+http://comments.gmane.org/gmane.lisp.steel-bank.general/3273
+http://www.math.uni.wroc.pl/~hebisch/prog/
+
+It seems like using GMP can help FriCAS a lot
+https://groups.google.com/forum/#!msg/fricas-devel/yby-B4QS4b4/3VFvYRomWQAJ
+Pi digits on the benchmarks game is currently a bunch of calls to GMP.
+It would be nice to have comparable performance with portable CL.
+http://benchmarksgame.alioth.debian.org/u64q/program.php?test=pidigits&lang=sbcl&id=1
+
 ** Flexible (pseudo) random number generation
 SBCL's support for random number generation is limited to an
 implementation of the Mersenne Twister (MT19937) PRNG.  This is a good
@@ -216,6 +227,13 @@ of a few standard or novel interpretation schemes on contemporary
 computers.  Finally, they would develop a small compiler for a
 practical programming language.
 
+*** Preliminary work, notes, etc.
+"Using closures for code generation," Feeley M and Lapalme G
+(http://www.iro.umontreal.ca/~feeley/papers/FeeleyLapalmeCL87.pdf) is
+nicely presents a technique that's very useful to compile languages
+without writing a full native code compiler.  That's how CL-PPCRE
+compiles regular expressions.
+
 ** Improving the thread-safety of the object system
 Developers continually attempt to reduce SBCL's reliance on a single
 "world" lock.  This effort has lead to the elimination of some
@@ -325,6 +343,31 @@ also show the correctness of simple but novel variations, and exploit
 their understanding of the problem domain to develop tests that are
 likely to detect incorrect transformations.
 
+*** Preliminary work, notes, etc.
+"Integer division using reciprocals," R Alverson
+(http://www.acsel-lab.com/arithmetic/papers/ARITH10/ARITH10_Alverson.pdf)
+
+"Division by invariant integers using multiplication," T Granlund and
+PL Montgomery (http://gmplib.org/~tege/divcnst-pldi94.pdf)
+
+"N-Bit unsigned division via N-Bit multiply-add," AD Robison
+(http://www.computer.org/csdl/proceedings/arith/2005/2366/00/23660131-abs.html)
+
+"Labor of Division (Episode III): Faster Unsigned Division by
+Constants," ridiculous_fish
+(http://www.ridiculousfish.com/blog/posts/labor-of-division-episode-iii.html)
+
+Specifically on extension to floor/ceiling
+http://discontinuity.info/~pkhuong/misc/div-by-mul.pdf
+
+Some of the references above were first found via
+http://www.mail-archive.com/open64-devel@lists.sourceforge.net/msg01139.html.
+It seems like work in this area tends to be duplicated… A review might
+not hurt.
+
+Hacker's Delight might be more confusing than anything else, YMMV
+(also, see http://www.hackersdelight.org/divcMore.pdf).
+
 ** Exploiting switch/case in standard control structures
 While Common Lisp exposes case constructs, there is no standard
 support for constant-time computed goto or C-style switch/case flow
@@ -352,11 +395,15 @@ compilation techniques is an advantage.
 The student would gain an overview of the complete pipeline in a
 production compiler, from the front-end, to dataflow analyses, to the
 generation of machine code.  They would also have to work within an
-ISO standard to expose a new feature to users.  Finally, they would
+ANSI standard to expose a new feature to users.  Finally, they would
 improve their understanding of the low-level performance of modern
 architectures, particularly at the level of branch prediction, in
 order to transparently improve the runtime efficiency of flow control
 constructs.
+
+*** Preliminary work, notes, etc.
+This dates from 2008, but it gives a decent idea of how little code is
+needed to get started http://discontinuity.info/~pkhuong/sbcl-switch-case.lisp.
 
 * Middle end infrastructure
 These projects are concerned with the target-independent optimisation
@@ -536,7 +583,6 @@ usable a theoretically correct symbolic process.
 
 
 
-
 * Back end work
 The following projects improve or add functionality in the back end of
 the compiler, the phase that exploits architecture-specific
@@ -579,6 +625,18 @@ problem.  They will also learn to map abstract discrete optimisation
 concepts to concrete low-level concepts such as architectural
 registers and assembly instructions, and develop specialised methods
 that straddle the two views to exploit domain-specific knowledge.
+
+*** Preliminary work, notes, etc.
+Andrew Appel has some interesting stuff
+http://www.cs.princeton.edu/~appel/coalesce/.
+
+The allocator is in src/compiler/pack.lisp, and is basically a greedy
+allocator (now that CMUCL's strange rotating heuristic has been
+disabled).  However, rather than colouring with respect to any
+well-known ordering heuristic (e.g. the Welsh-Powell decreasing degree
+order, or Brélaz's dynamic min-degree order), TNs (variables) are
+ordered for allocation by considering only the loop nesting depth and
+a cost value.
 
 ** Selecting concrete representations cleverly
 An essential trick to SBCL's performance is its ability to represent
@@ -705,6 +763,12 @@ the system, and guide technical decisions with empiric measures from
 benchmarks that reflect reality.  Moreover, this would be done within
 the constraints specified by a standard.
 
+*** Preliminary work, notes, etc.
+https://github.com/pkhuong/sbcl/tree/fast-unboxed-struct seemed to be
+mostly working a couple years ago.  There's still a lot of work to
+adapt introspection code, and then to actually exploit the new
+freedom in layout.
+
 ** Software write barriers
 Generational garbage collectors attempt to process the heap
 incrementally by determining when writes to old objects may have
@@ -742,6 +806,12 @@ automatically detect subtle code generation and concurrency bugs.
 They would also improve their ability to characterise the performance
 of (a part of) a complex system, and act upon that information to
 improve such a system.
+
+*** Preliminary work, notes, etc.
+The were several trees over the past couple years. The latest one is
+https://github.com/pkhuong/sbcl/tree/card-2012-3. I believe there's
+some strange failures for tiny card sizes, and I haven't yet ruled out
+an old bug elsewhere.
 
 ** Improving SBCL's memory allocator
 SBCL's memory management system includes a page-level block allocator.
@@ -785,6 +855,10 @@ microarchitecture.  In addition to applying concepts from computer
 architecture and operating systems theory to improve the performance
 of a runtime system, they will also apply statistical techniques to
 convincingly exhibit these improvements.
+
+*** Preliminary work, notes, etc.
+https://github.com/pkhuong/sbcl/tree/discontiguous-unboxed-allocation
+seemed to mostly work to avoid interleaving pages.
 
 ** Garbage collection debugging and heap assertions
 Pointer-based data structures can be particularly difficult to debug;
@@ -863,6 +937,12 @@ management algorithms, and implement them.  They will also develop
 code that interacts directly with the operating system in order to
 manage resources efficiently.
 
+*** Preliminary work, notes, etc.
+A minimal working (?) mark/sweep, plugged in the usual collector at
+https://github.com/pkhuong/sbcl/tree/foreign-mark-sweep. There's
+actually very little that must be changed in pre-existing code to get
+something going.
+
 ** Replacing the garbage collector with MPS
 SBCL's garbage collector is well-modularised, but shares code only
 with CMUCL, and suffers from a rigid design.  Ravenbrook's Memory Pool
@@ -918,14 +998,14 @@ usefulness.
 
 ** GCed special variables
 ** Precise stack scanning
-The garbage collector used by SBCL on x86, x86-64 and threaded PPC is
-conservative: any aligned word on the control stack or in a register
-that might be a tagged pointer is treated as a potential root.
-Consequently, some definite roots are treated as potential ones,
-preventing some heap compaction, and spurious potential roots cause
-spurious memory leaks.  Being able to partition some stack values as
-definite references, non-references, and potential references would
-greatly alleviate this issue.  
+The garbage collector used by SBCL on x86 and x86-64 is conservative:
+any aligned word on the control stack or in a register that might be a
+tagged pointer is treated as a potential root.  Consequently, some
+definite roots are treated as potential ones, preventing some heap
+compaction, and spurious potential roots cause spurious memory leaks.
+Being able to partition some stack values as definite references,
+non-references, and potential references would greatly alleviate this
+issue.
 
 ** A binary serialisation library
 Many applications depend on the efficient (both in terms of time and
